@@ -24,6 +24,15 @@
   "functions": {
     "api/design.js": {
       "maxDuration": 300
+    },
+    "api/gold-estimate.js": {
+      "includeFiles": "{classic-cuban-data.js,classic-cuban-pricing.js}"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/api/checkout",
+      "destination": "/api/gold-estimate?op=checkout"
+    }
+  ]
 }

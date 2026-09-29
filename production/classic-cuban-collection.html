@@ -12,13 +12,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <title>Monaci Cuban Chain Catalog | Every Width &amp; Length | Hands of Gold</title>
-<meta content="The full Monaci Cuban catalog at Hands of Gold in Copiague, NY — every width from 5mm to 17mm, each length, with exact catalog weight and SKU for each piece. Call or text 631-264-6610 for pricing." name="description"/>
+<meta content="The full Monaci Cuban catalog at Hands of Gold in Copiague, NY — every width from 5mm to 17mm, each length, with exact catalog weight, SKU and a live price based on today's gold market. Buy online, pick up in store." name="description"/>
 <link href="https://www.handsofgoldny.com/classic-cuban-collection.html" rel="canonical"/>
 <meta content="Monaci Cuban Collection | Hands of Gold" property="og:title"/>
-<meta content="Choose bracelet or necklace, millimeter width, length and available karat." property="og:description"/>
+<meta content="Choose bracelet or necklace, millimeter width, length and karat. Live prices based on today's gold market." property="og:description"/>
 <meta content="https://www.handsofgoldny.com/classic-cuban-collection.html" property="og:url"/>
 <link href="style.css" rel="stylesheet"/>
 <link href="classic-cuban.css" rel="stylesheet"/>
+<style>
+/* Live price + Buy Now (Sep 2026) */
+.cc-price-timer{margin-top:10px;padding:8px 10px;border-radius:8px;background:rgba(10,46,115,.08);color:#0A2E73;font-size:13px;line-height:1.45}
+.cc-price-timer.is-urgent{background:rgba(180,40,30,.1);color:#9b2a1f}
+.cc-price-refresh{margin-top:10px;width:100%;padding:12px;border:0;border-radius:10px;background:#0A2E73;color:#fff;font-size:15px;font-weight:800;cursor:pointer}
+.cc-buy{display:block;width:100%;margin:0 0 10px;padding:15px 16px;border:0;border-radius:12px;background:#0A2E73;color:#fff;font-size:17px;font-weight:800;letter-spacing:.01em;cursor:pointer}
+.cc-buy:disabled{opacity:.6;cursor:wait}
+.cc-buy-note{margin:0 0 12px;font-size:12.5px;line-height:1.5;color:#6f6a61}
+.cc-buy-msg{margin:0 0 10px;font-size:13px;line-height:1.45;color:#9b2a1f}
+.cc-buy-msg:empty{display:none}
+</style>
 <script type="application/ld+json">
 {
  "@context":"https://schema.org",
@@ -35,7 +46,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
  "@type":"FAQPage",
  "mainEntity":[
    {"@type":"Question","name":"What sizes are available in the Monaci Cuban collection?","acceptedAnswer":{"@type":"Answer","text":"The catalog lists bracelets from 5 mm through 17 mm in selected lengths and necklaces from 5 mm through 17 mm in selected lengths. Availability should be confirmed with Hands of Gold."}},
-   {"@type":"Question","name":"Why is the Monaci Cuban price not shown?","acceptedAnswer":{"@type":"Answer","text":"Cuban pricing is driven by the weight of the piece and the current gold market, both of which move. Hands of Gold quotes the exact configuration by phone or text rather than publishing a figure that may be out of date."}},
+   {"@type":"Question","name":"How is the Monaci Cuban price calculated?","acceptedAnswer":{"@type":"Answer","text":"Every Monaci price is calculated straight from the actual live spot price of gold, adjusted for the gold content of the karat (58.5% for 14K, 41.7% for 10K) and the exact catalog weight. That is our best possible price, and when gold goes down, our prices go down with it."}},
+   {"@type":"Question","name":"Why does the price expire after 25 minutes?","acceptedAnswer":{"@type":"Answer","text":"Gold trades all day, so a price shown on the page is held for 25 minutes. After that, refresh for the current price."}},
+   {"@type":"Question","name":"Can I buy a Monaci Cuban online?","acceptedAnswer":{"@type":"Answer","text":"Yes. Tap Buy Now to pay in full through Stripe's secure checkout. New York sales tax is added at checkout. Orders are picked up in store at 494 Oak Street, Copiague, NY. Bring a photo ID that matches the card used."}},
    {"@type":"Question","name":"Are weights available for every karat?","acceptedAnswer":{"@type":"Answer","text":"No. The source catalog contains populated weight values primarily for 14K and for selected 10K configurations. Karats without a source weight are disabled rather than estimated."}}
  ]
 }
@@ -96,8 +109,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </div></header>
 <section class="cc-hero"><div class="container cc-hero-grid">
 <div><p class="cc-eyebrow">Monaci Cuban Collection</p><h1>Build Your Monaci Cuban</h1>
-<p>Choose bracelet or necklace, set the width and length, then see the exact Monaci SKU and catalog weight. Call or text for today’s price.</p>
-<div class="cc-hero-stats"><div class="cc-stat"><strong>5–17 mm</strong><span>Widths</span></div><div class="cc-stat"><strong>Exact</strong><span>Catalog weight</span></div><div class="cc-stat"><strong>Call / Text</strong><span>Current pricing</span></div></div>
+<p>Choose bracelet or necklace, set the width and length, and see the exact Monaci SKU, catalog weight and today's live price. Our prices are built on the gold market, so when gold comes down, so do we.</p>
+<div class="cc-hero-stats"><div class="cc-stat"><strong>5–17 mm</strong><span>Widths</span></div><div class="cc-stat"><strong>Exact</strong><span>Catalog weight</span></div><div class="cc-stat"><strong>Live</strong><span>Market pricing</span></div></div>
 </div>
 <div class="cc-hero-visual"><video aria-label="Monaci Cuban video showcase" autoplay="" class="cc-hero-video" loop="" muted="" playsinline="" poster="new-media/monaci-hero-18295-poster.jpg" preload="auto"><source src="new-media/monaci-hero-18295-muted.mp4" type="video/mp4"/></video></div>
 </div></section>
@@ -119,16 +132,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <div class="cc-spec"><span>Width</span><strong id="cc-width"></strong></div><div class="cc-spec"><span>Length</span><strong id="cc-length-result"></strong></div>
 <div class="cc-spec"><span>Karat</span><strong id="cc-karat"></strong></div><div class="cc-spec"><span>Catalog weight</span><strong id="cc-weight"></strong></div>
 </div>
-<div class="cc-price-box"><div class="cc-price-label">Pricing</div><div class="cc-price-main" id="cc-retail-price">Call for pricing</div><div class="cc-price-sub" id="cc-price-sub"></div></div>
+<div class="cc-price-box"><div class="cc-price-label">Today's price</div><div class="cc-price-main" id="cc-retail-price">Loading live price…</div><div class="cc-price-sub" id="cc-price-sub"></div><div aria-live="polite" class="cc-price-timer" hidden="" id="cc-price-timer"></div><button class="cc-price-refresh" hidden="" id="cc-price-refresh" type="button">Get Today's Price</button></div>
+<button class="cc-buy" hidden="" id="cc-buy" type="button">Buy Now</button>
+<p aria-live="polite" class="cc-buy-msg" id="cc-buy-msg"></p>
+<p class="cc-buy-note" hidden="" id="cc-buy-note">Pay in full with secure Stripe checkout. NY sales tax is added at checkout. In-store pickup at 494 Oak St, Copiague. Bring a photo ID that matches the card. We'll call you when it's ready.</p>
 <div class="cc-actions"><a class="cc-btn cc-primary" href="tel:6312646610" id="cc-call">Call About This Cuban</a><a class="cc-btn cc-secondary" href="sms:6312646610" id="cc-text">Text Us This Piece</a><button class="cc-btn cc-secondary cc-share" id="cc-share" type="button">Share This Piece</button></div>
-<p class="cc-note">Catalog weights are reproduced from the supplied Monaci catalog. Weight and finish can vary in actual production. Final price, availability, specifications and payment terms are confirmed by Hands of Gold.</p>
+<p class="cc-note">Catalog weights are reproduced from the supplied Monaci catalog. Weight and finish can vary in actual production. Availability and specifications are confirmed by Hands of Gold.</p>
 </div>
 </div>
 </div>
 </div></section>
 
 <section class="cc-faq"><div class="container"><p class="cc-eyebrow" style="color:#a97822">FAQ</p><h2>Monaci Cuban questions</h2>
-<details><summary>Why isn’t the price shown?</summary><p>Cuban pricing is driven by the weight of the piece and the current gold market, both of which move. Rather than show a number that may be out of date by the time you read it, we confirm the current price by phone or text for the exact configuration you choose.</p></details>
+<details><summary>How is the price calculated?</summary><p>Every Monaci price is calculated straight from the actual live spot price of gold, adjusted for the gold content of the karat (58.5% for 14K, 41.7% for 10K) and the exact catalog weight. That is our best possible price, and when gold goes down, our prices go down with it.</p></details>
+<details><summary>Why does the price expire after 25 minutes?</summary><p>Gold trades all day, so a price on this page is held for 25 minutes. After that, tap Get Today's Price for the current number.</p></details>
+<details><summary>Can I buy online?</summary><p>Yes. Tap Buy Now to pay in full through Stripe's secure checkout. New York sales tax is added at checkout. Orders are picked up in store at 494 Oak Street, Copiague. Bring a photo ID that matches the card used, and we'll call you when your piece is ready. See our <a href="returns.html">Returns &amp; Exchanges</a> policy.</p></details>
 <details><summary>Why are some karats disabled?</summary><p>The catalog headings include 10K, 14K, 18K, 21K and 22K, but the supplied pages only contain populated weights for 14K and selected 10K configurations. Missing weights are not guessed.</p></details>
 <details><summary>Can I send my exact configuration to the store?</summary><p>Yes. Use the Text Us This Piece button or share the configuration link. The URL preserves your bracelet/necklace, width, length and karat selections.</p></details>
 

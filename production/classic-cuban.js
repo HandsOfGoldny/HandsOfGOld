@@ -8,6 +8,17 @@ const money = new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",max
 let goldSpot=null;
 let state={type:"bracelet",width:8,length:8,karat:"14K"};
 
+// ---- Live quote window -------------------------------------------------
+// A price shown on this page is good for QUOTE_MINUTES. When the clock runs
+// out the price is pulled and the customer must refresh for today's number.
+// Buy Now charges the price shown while the window is open.
+const QUOTE_MINUTES = Number(pricing.quoteMinutes) || 25;
+// Gold's record high, used for the "gold is down" market note.
+// Source: record $5,589/oz on Jan 28 2026. We say "over $5,500" to stay conservative.
+const RECORD_REF = Number(pricing.recordHighRef) || 5500;
+let quoteStart=null, quoteExpired=false, quoteTimer=null;
+window.HOG_MONACI_QUOTE = { price:null, expired:false, quotedAt:null, spot:null };
+
 const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
 const roundRetail=(v)=>{
@@ -30,7 +41,40 @@ async function loadGold(){
     goldSpot=Number(d.price);
     if(!Number.isFinite(goldSpot)) throw new Error("gold value");
   }catch(e){ goldSpot=null; }
+  if(goldSpot){ startQuote(); }
+  renderMarketNote();
   renderResult();
+}
+function startQuote(){
+  quoteStart=Date.now(); quoteExpired=false;
+  if(quoteTimer) clearInterval(quoteTimer);
+  quoteTimer=setInterval(tickQuote,1000);
+  tickQuote();
+}
+function msLeft(){ return quoteStart ? quoteStart + QUOTE_MINUTES*60000 - Date.now() : 0; }
+function tickQuote(){
+  const el=$("#cc-price-timer");
+  const left=msLeft();
+  if(left<=0){
+    clearInterval(quoteTimer); quoteTimer=null;
+    if(!quoteExpired){ quoteExpired=true; renderResult(); }
+    return;
+  }
+  if(el){
+    const m=Math.floor(left/60000), s=Math.floor((left%60000)/1000);
+    el.innerHTML=`Price held for <strong>${m}:${String(s).padStart(2,"0")}</strong> &middot; buy now before it updates`;
+    el.classList.toggle("is-urgent", left<5*60000);
+  }
+}
+function renderMarketNote(){
+  const box=$("#cc-market-note");
+  if(!box) return;
+  if(!goldSpot || goldSpot>=RECORD_REF){ box.hidden=true; return; }
+  const pct=Math.floor((1-goldSpot/RECORD_REF)*100);
+  const spotTxt=new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0}).format(goldSpot);
+  $("#cc-market-spot").textContent=spotTxt;
+  $("#cc-market-pct").textContent=pct+"%";
+  box.hidden=false;
 }
 function metalValue(weight,karat){
   const spg=spotPerGram();
@@ -114,6 +158,48 @@ function renderControls(){
     b.onclick=()=>{state.karat=k;renderAll();};karatBox.appendChild(b);
   });
 }
+// ---- Buy Now (Stripe Checkout, in-store pickup) ------------------------
+let checkoutReady=false, buying=false;
+function setBuyEnabled(on,price){
+  const btn=$("#cc-buy"), note=$("#cc-buy-note");
+  if(!btn) return;
+  const show=checkoutReady && on && !!price;
+  btn.hidden=!show; if(note) note.hidden=!show;
+  if(show && !buying) btn.textContent=`Buy Now — ${money.format(price)}`;
+}
+async function probeCheckout(){
+  try{
+    const r=await fetch("/api/checkout?probe=1",{cache:"no-store"});
+    const d=await r.json();
+    checkoutReady=!!(d && d.available);
+  }catch(e){ checkoutReady=false; }
+  renderResult();
+}
+async function buyNow(){
+  const p=currentProduct(); const q=window.HOG_MONACI_QUOTE||{};
+  if(!p || !q.price || q.expired || buying) return;
+  const btn=$("#cc-buy"), msg=$("#cc-buy-msg");
+  buying=true; btn.disabled=true; btn.textContent="Opening secure checkout…"; if(msg) msg.textContent="";
+  try{
+    const r=await fetch("/api/checkout",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({sku:p.sku,karat:state.karat,quotedPrice:q.price,quotedAt:q.quotedAt})});
+    const d=await r.json().catch(()=>({}));
+    if(r.ok && d.url){
+      (window.dataLayer=window.dataLayer||[]).push({event:"begin_checkout",sku:p.sku,karat:state.karat,value:q.price});
+      location.href=d.url; return;
+    }
+    if(r.status===409 && d.spot){
+      // Gold moved more than 1.5%: show the new live price and start a fresh window.
+      goldSpot=Number(d.spot); startQuote(); buying=false; btn.disabled=false; renderResult();
+      if(msg) msg.textContent="Gold moved since this page loaded. The price above is updated — tap Buy Now again to continue.";
+      return;
+    }
+    if(msg) msg.textContent=d.error||"Checkout couldn't start. Please call (631) 264-6610.";
+  }catch(e){
+    if(msg) msg.textContent="Checkout couldn't start. Please call (631) 264-6610.";
+  }
+  buying=false; btn.disabled=false; renderResult();
+}
 function renderResult(){
   const p=currentProduct(); if(!p)return;
   const weight=Number(p.weights[state.karat]);
@@ -127,15 +213,33 @@ function renderResult(){
   $("#cc-weight").textContent=weight.toFixed(2)+" g";
   $("#cc-page-ref").textContent="Catalog page "+p.sourcePage;
   const rp=retailPrice(weight,state.karat);
-  const main=$("#cc-retail-price"), sub=$("#cc-price-sub");
-  if(rp){
+  const main=$("#cc-retail-price"), sub=$("#cc-price-sub"), timer=$("#cc-price-timer"), refresh=$("#cc-price-refresh");
+  const spotTxt=goldSpot?new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0}).format(goldSpot):"";
+  let smsPrice="";
+  if(rp && quoteExpired){
+    main.textContent="Price expired";
+    sub.textContent="Gold moves all day, so prices on this page are good for "+QUOTE_MINUTES+" minutes. Tap below for today's price.";
+    if(timer) timer.hidden=true;
+    if(refresh) refresh.hidden=false;
+    window.HOG_MONACI_QUOTE={price:null,expired:true,quotedAt:quoteStart,spot:goldSpot};
+    setBuyEnabled(false);
+  }else if(rp){
     main.textContent=money.format(rp);
-    sub.textContent="Current online Hands of Gold price. Final availability is confirmed by the store.";
+    sub.textContent=`Live price from today's gold market (spot ${spotTxt}/oz). Final availability is confirmed by the store.`;
+    if(timer) timer.hidden=false;
+    if(refresh) refresh.hidden=true;
+    window.HOG_MONACI_QUOTE={price:rp,expired:false,quotedAt:quoteStart,spot:goldSpot};
+    setBuyEnabled(true,rp);
+    smsPrice=` The site showed ${money.format(rp)} at ${new Date(quoteStart).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}.`;
   }else{
     main.textContent="Call for pricing";
-    sub.textContent="Call or text us for current pricing on this exact configuration. Prices move with the gold market.";
+    sub.textContent="Our live gold price feed is unavailable right now. Call or text us for current pricing on this exact configuration.";
+    if(timer) timer.hidden=true;
+    if(refresh) refresh.hidden=true;
+    window.HOG_MONACI_QUOTE={price:null,expired:false,quotedAt:null,spot:null};
+    setBuyEnabled(false);
   }
-  const sms=`Hi Hands of Gold, I'm interested in the Monaci Cuban ${state.type}, ${p.widthMm}mm x ${p.lengthIn}in, ${state.karat}, SKU ${p.sku}.`;
+  const sms=`Hi Hands of Gold, I'm interested in the Monaci Cuban ${state.type}, ${p.widthMm}mm x ${p.lengthIn}in, ${state.karat}, SKU ${p.sku}.${smsPrice}`;
   $("#cc-text").href=`sms:6312646610?body=${encodeURIComponent(sms)}`;
   $("#cc-call").href="tel:6312646610";
   syncQuery();
@@ -177,6 +281,11 @@ document.addEventListener("DOMContentLoaded",()=>{
   $$(".cc-type-btn").forEach(b=>b.onclick=()=>{state.type=b.dataset.type;state.width=widths(state.type)[0];state.length=lengths(state.type,state.width)[0];state.karat="14K";normalize();renderAll();});
   $("#cc-length").onchange=e=>{state.length=Number(e.target.value);normalize();renderAll();};
   $("#cc-share").onclick=share;
-  renderAll();loadGold();
+  const buy=$("#cc-buy"); if(buy) buy.onclick=buyNow;
+  const refresh=$("#cc-price-refresh");
+  if(refresh) refresh.onclick=()=>{ refresh.textContent="Getting today's price..."; location.reload(); };
+  // If the tab sat in the background, re-check the clock as soon as it is visible again.
+  document.addEventListener("visibilitychange",()=>{ if(!document.hidden && quoteStart) tickQuote(); });
+  renderAll();loadGold();probeCheckout();
 });
 })();

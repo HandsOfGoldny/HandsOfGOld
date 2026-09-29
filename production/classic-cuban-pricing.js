@@ -1,29 +1,26 @@
 window.HOG_CLASSIC_CUBAN_PRICING = {
-  // Prices are intentionally OFF. The page shows specifications only and
-  // asks the customer to call. Set this back to true to show prices again -
-  // the spot + $45/gram rule below is preserved and ready.
-  retailEnabled: false,
+  // Prices are ON. If the live gold feed is down, the page falls back to
+  // "Call for current price" instead of showing a guessed number.
+  retailEnabled: true,
 
   // ---------------------------------------------------------------
-  // HANDS OF GOLD RETAIL RULE
+  // HANDS OF GOLD RETAIL RULE (confirmed by Julio, Sep 2026)
   //
-  //   price = (live gold spot price per gram + $45) x catalog weight
+  //   price per gram = (live gold spot per gram x karat purity) + $45
+  //   price          = price per gram x catalog weight
   //
-  // The per-gram rate is built on the SPOT price of gold, not on melt
-  // value. Karat purity is deliberately NOT applied to the rate, so the
-  // same $/gram applies to 10K and 14K. A 10K piece still comes out
-  // cheaper than the same size in 14K because it weighs less.
+  //   14K purity = 0.585   10K purity = 0.417
+  //   Example: spot $4,319.20/oz -> $138.87/g pure
+  //            14K: 138.87 x 0.585 = $81.24 + $45 = $126.24/g
+  //            4.34 g bracelet = $547.88 -> shown as $550 (rounded to $5)
   //
-  // To change the store's margin, edit spotPlusPerGram and nothing else.
+  // This is mode "melt": metal value + laborPerGram x weight.
+  // To change the store's margin, edit laborPerGram and nothing else.
   // ---------------------------------------------------------------
-  mode: "spotPlus",
+  mode: "melt",
 
-  spotPlusPerGram: 45,
-
-  // Only these karats get a computed price. Anything else shows
-  // "Call for current price" rather than a guessed number.
-  spotPlusKarats: ["10K", "14K"],
-
+  laborPerGram: 45,
+  markupPercent: 0,
   flatFee: 0,
   roundTo: 5,
 
@@ -31,8 +28,17 @@ window.HOG_CLASSIC_CUBAN_PRICING = {
   // current price" instead of a live number. Set to null to disable.
   maxAutoPrice: null,
 
-  // --- legacy modes, unused while mode is "spotPlus" ---
-  markupPercent: 0,
-  laborPerGram: 45,
+  // A price shown on the page is good for this many minutes, then it
+  // expires and the customer must refresh. Buy Now charges the price shown.
+  quoteMinutes: 25,
+
+  // Gold's record high used in the "gold is down" note on the page.
+  // Real record: $5,589/oz on Jan 28 2026. Kept at 5500 so the claim
+  // "over $5,500" and the % below it are always conservative.
+  recordHighRef: 5500,
+
+  // --- unused while mode is "melt" ---
+  spotPlusPerGram: 45,
+  spotPlusKarats: ["10K", "14K"],
   retailPerGram: { "10K": null, "14K": null }
 };
