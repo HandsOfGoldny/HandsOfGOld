@@ -4,7 +4,7 @@
  * throws away the old cached copies. HTML, CSS and JS are fetched
  * network-first on purpose, so a deploy is never hidden behind cache.
  * ------------------------------------------------------------------ */
-var CACHE_VERSION = 'hog-20260929-purchase-copy-r1';
+var CACHE_VERSION = 'hog-20260929-product-pages-r2';
 
 var PRECACHE = CACHE_VERSION + '-precache';
 var RUNTIME  = CACHE_VERSION + '-runtime';
