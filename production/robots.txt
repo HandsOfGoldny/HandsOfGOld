@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /_backup/
+
+Sitemap: https://www.handsofgoldny.com/sitemap.xml

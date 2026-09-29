@@ -1,0 +1,33 @@
+{
+  "html_pages": 60,
+  "missing_local_refs": [],
+  "missing_internal_anchors": [],
+  "href_hash_placeholders": [],
+  "duplicate_ids": [],
+  "accessibility_structure_issues": [],
+  "javascript_syntax_failures": [],
+  "css_parse_failures": [],
+  "service_form_binding_issues": [],
+  "product_form_binding_issues": [],
+  "customer_pages_missing_unified_chrome": [],
+  "old_10_percent_offer_refs": [],
+  "labor_day_campaign": {
+    "LABORDAY25": true,
+    "ShopSale": true,
+    "expires": true
+  },
+  "monaci_hero_audio_track_present": false,
+  "homepage_order": [
+    "featured-products",
+    "build-your-ideas",
+    "reviews",
+    "payment-options",
+    "quick-services-section",
+    "sell-gold",
+    "visit"
+  ],
+  "homepage_redundant_contact_band_present": false,
+  "homepage_store_policies_block_present": false,
+  "monaci_repetitive_catalog_grid_present": false,
+  "monaci_old_hero_photo_exists": false
+}

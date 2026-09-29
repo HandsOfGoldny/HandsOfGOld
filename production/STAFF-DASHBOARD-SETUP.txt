@@ -1,0 +1,28 @@
+Hands of Gold Staff Lead Center
+
+Files to merge into the CURRENT production source tree:
+  /staff.html
+  /staff.css
+  /staff.js
+  /api/leads.js
+  /api/staff-auth.js
+  /api/leads-admin.js
+  /api/lib/redis.js
+  /api/lib/staff-auth-lib.js
+
+Required Vercel environment variables:
+  STAFF_ACCESS_CODE       owner-selected login code
+  STAFF_SESSION_SECRET    long random secret (recommended)
+Optional:
+  STAFF_EMAIL             defaults to HandsOfGold@handsofgold.org
+  LEAD_EMAIL              defaults to HandsOfGold@handsofgold.org
+  RESEND_API_KEY / RESEND_FROM_EMAIL
+  LEAD_WEBHOOK_URL
+
+Persistent dashboard storage requires either Vercel KV-compatible or Upstash Redis REST variables:
+  KV_REST_API_URL + KV_REST_API_TOKEN
+  OR
+  UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN
+
+The public lead API still attempts email/webhook delivery even if Redis storage is not configured.
+Do not deploy this folder by itself over the production website. Merge it into the full production source first.

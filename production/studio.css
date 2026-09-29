@@ -1,0 +1,583 @@
+/* ==========================================================================
+   Hands of Gold — AI Jewelry Concept Studio
+   Additive stylesheet for the concept preview panel. Scoped under
+   #hog-studio / .hog-studio-* so it cannot reach any existing site styles.
+   Brand system: navy #0A2E73 · black #080B12 · gold #C79638 · ivory #F6F3EC
+   ========================================================================== */
+
+#hog-studio,
+#hog-studio *{box-sizing:border-box;}
+
+#hog-studio{
+  --hog-navy:#0A2E73;
+  --hog-navy-deep:#061A3A;
+  --hog-black:#080B12;
+  --hog-gold:#C79638;
+  --hog-gold-soft:#D6AD5C;
+  --hog-gold-deep:#B47B21;
+  --hog-ivory:#F6F3EC;
+  --hog-hairline:rgba(255,255,255,.14);
+
+  display:block;
+  /* grid/flex items default to min-width:auto, which lets content force the
+     box wider than its column. Without these two lines the panel blows out
+     of the mobile builder layout. */
+  min-width:0;
+  max-width:100%;
+  margin-top:1rem;
+  border-radius:16px;
+  overflow:hidden;
+  background:linear-gradient(145deg,var(--hog-navy-deep) 0%,var(--hog-black) 62%,#0b1e42 100%);
+  border:1px solid rgba(199,150,56,.4);
+  box-shadow:0 18px 48px rgba(0,0,0,.35);
+  color:var(--hog-ivory);
+}
+
+/* thin royal-blue-to-gold accent line across the top of the tray */
+#hog-studio::before{
+  content:"";
+  display:block;
+  height:2px;
+  background:linear-gradient(90deg,var(--hog-navy) 0%,var(--hog-gold) 55%,var(--hog-navy) 100%);
+}
+
+.hog-studio-inner{padding:1.15rem 1.15rem 1.25rem;}
+
+.hog-studio-head{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:.6rem;
+  margin-bottom:.85rem;
+}
+.hog-studio-eyebrow{
+  margin:0;
+  color:var(--hog-gold);
+  font-size:.62rem;
+  font-weight:800;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+.hog-studio-remaining{
+  margin:0;
+  color:rgba(246,243,236,.55);
+  font-size:.66rem;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+/* ---- the image stage ---------------------------------------------------- */
+.hog-studio-stage{
+  position:relative;
+  aspect-ratio:1/1;
+  width:100%;
+  border-radius:12px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 42%,rgba(10,46,115,.34),transparent 62%),
+    linear-gradient(160deg,#050912,#0a1024);
+  border:1px solid rgba(199,150,56,.3);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.hog-studio-stage img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* placeholder — deliberately line-art, never a stock photo that could be
+   mistaken for the customer's own design */
+.hog-studio-placeholder{padding:1.4rem 1.2rem;}
+.hog-studio-placeholder svg{
+  width:64px;height:64px;
+  margin:0 auto .8rem;
+  display:block;
+  opacity:.85;
+}
+.hog-studio-placeholder strong{
+  display:block;
+  color:var(--hog-ivory);
+  font-size:.78rem;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  margin-bottom:.45rem;
+}
+.hog-studio-placeholder span{
+  display:block;
+  max-width:34ch;
+  margin:0 auto;
+  color:rgba(246,243,236,.62);
+  font-size:.82rem;
+  line-height:1.5;
+}
+
+/* loading */
+.hog-studio-loading{padding:1.4rem 1.2rem;}
+.hog-studio-spinner{
+  width:38px;height:38px;
+  margin:0 auto 1rem;
+  border-radius:50%;
+  border:2px solid rgba(199,150,56,.22);
+  border-top-color:var(--hog-gold);
+  animation:hog-studio-spin 1s linear infinite;
+}
+@keyframes hog-studio-spin{to{transform:rotate(360deg);}}
+.hog-studio-loading strong{
+  display:block;
+  color:var(--hog-ivory);
+  font-size:.9rem;
+  font-weight:800;
+  margin-bottom:.4rem;
+}
+.hog-studio-loading span{
+  display:block;
+  color:rgba(246,243,236,.6);
+  font-size:.8rem;
+  min-height:1.2em;
+}
+@media(prefers-reduced-motion:reduce){
+  .hog-studio-spinner{animation-duration:2.4s;}
+}
+
+/* error */
+.hog-studio-error{padding:1.4rem 1.2rem;}
+.hog-studio-error strong{
+  display:block;
+  color:#ffd8cc;
+  font-size:.92rem;
+  font-weight:800;
+  margin-bottom:.7rem;
+}
+.hog-studio-error .hog-studio-error-actions{
+  display:flex;flex-wrap:wrap;gap:.45rem;justify-content:center;
+}
+
+/* ---- buttons ------------------------------------------------------------ */
+.hog-studio-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.4rem;
+  min-height:46px;
+  padding:.6rem 1.05rem;
+  border-radius:9px;
+  border:1px solid var(--hog-hairline);
+  background:rgba(255,255,255,.07);
+  color:var(--hog-ivory);
+  font:inherit;
+  font-size:.86rem;
+  font-weight:800;
+  text-align:center;
+  text-decoration:none;
+  cursor:pointer;
+  transition:background 160ms ease,border-color 160ms ease,transform 160ms ease,box-shadow 160ms ease;
+}
+.hog-studio-btn:hover:not(:disabled){background:rgba(255,255,255,.12);border-color:rgba(199,150,56,.5);}
+.hog-studio-btn:focus-visible{outline:2px solid var(--hog-gold);outline-offset:2px;}
+.hog-studio-btn:disabled{opacity:.6;cursor:default;}
+
+.hog-studio-btn-gold{
+  background:linear-gradient(135deg,var(--hog-gold-soft) 0%,var(--hog-gold) 55%,var(--hog-gold-deep) 100%);
+  color:var(--hog-black);
+  border:1px solid rgba(255,255,255,.2);
+  font-weight:900;
+}
+.hog-studio-btn-gold:hover:not(:disabled){
+  background:linear-gradient(135deg,var(--hog-gold-soft) 0%,var(--hog-gold) 55%,var(--hog-gold-deep) 100%);
+  transform:translateY(-1px);
+  box-shadow:0 8px 24px rgba(199,150,56,.25);
+}
+
+/* the main generate button — the most important control in the studio */
+.hog-studio-generate{
+  width:100%;
+  min-height:54px;
+  margin-top:.9rem;
+  font-size:1rem;
+  letter-spacing:.01em;
+}
+
+/* ---- result ------------------------------------------------------------- */
+.hog-studio-result{margin-top:.9rem;}
+.hog-studio-result[hidden]{display:none;}
+
+.hog-studio-caption{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:.4rem;
+  margin:.85rem 0 .35rem;
+}
+.hog-studio-caption strong{
+  color:var(--hog-gold);
+  font-size:.62rem;
+  font-weight:800;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+.hog-studio-id{
+  font-size:.66rem;
+  font-weight:800;
+  letter-spacing:.06em;
+  color:var(--hog-ivory);
+  background:rgba(10,46,115,.55);
+  border:1px solid rgba(199,150,56,.34);
+  border-radius:999px;
+  padding:.24rem .55rem;
+  white-space:nowrap;
+}
+.hog-studio-summary{
+  margin:0 0 .5rem;
+  color:rgba(246,243,236,.86);
+  font-size:.86rem;
+  font-weight:700;
+  line-height:1.45;
+}
+.hog-studio-disclaimer{
+  margin:0 0 .9rem;
+  color:rgba(246,243,236,.58);
+  font-size:.7rem;
+  line-height:1.45;
+}
+
+.hog-studio-actions{
+  display:grid;
+  gap:.45rem;
+  margin-bottom:.9rem;
+}
+.hog-studio-actions-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:.45rem;
+}
+
+/* ---- revision box ------------------------------------------------------- */
+.hog-studio-revise{
+  padding:.75rem;
+  border-radius:10px;
+  background:rgba(10,46,115,.3);
+  border:1px solid var(--hog-hairline);
+}
+.hog-studio-revise label{
+  display:block;
+  margin-bottom:.35rem;
+  color:rgba(246,243,236,.82);
+  font-size:.72rem;
+  font-weight:800;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.hog-studio-revise textarea{
+  width:100%;
+  min-height:62px;
+  padding:.55rem .65rem;
+  border-radius:8px;
+  border:1px solid rgba(199,150,56,.35);
+  background:var(--hog-ivory);
+  color:var(--hog-black);
+  font:inherit;
+  font-size:16px; /* stops iOS Safari zooming the page on focus */
+  line-height:1.4;
+  resize:vertical;
+}
+.hog-studio-revise textarea:focus,
+.hog-studio-revise textarea:focus-visible{
+  border-color:var(--hog-gold);
+  box-shadow:0 0 0 3px rgba(199,150,56,.12);
+  outline:none;
+}
+.hog-studio-revise .hog-studio-btn{width:100%;margin-top:.5rem;}
+
+/* ---- session history ---------------------------------------------------- */
+.hog-studio-history{margin-top:.9rem;}
+.hog-studio-history[hidden]{display:none;}
+.hog-studio-history > strong{
+  display:block;
+  margin-bottom:.4rem;
+  color:var(--hog-gold);
+  font-size:.6rem;
+  font-weight:800;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+}
+.hog-studio-thumbs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.4rem;
+}
+.hog-studio-thumb{
+  width:58px;height:58px;
+  padding:0;
+  border-radius:8px;
+  overflow:hidden;
+  border:1px solid var(--hog-hairline);
+  background:#050912;
+  cursor:pointer;
+  position:relative;
+}
+.hog-studio-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.hog-studio-thumb[aria-current="true"]{border-color:var(--hog-gold);box-shadow:0 0 0 2px rgba(199,150,56,.28);}
+.hog-studio-thumb:focus-visible{outline:2px solid var(--hog-gold);outline-offset:2px;}
+
+/* ---- status line -------------------------------------------------------- */
+.hog-studio-status{
+  margin:.6rem 0 0;
+  min-height:1.1rem;
+  font-size:.76rem;
+  color:rgba(246,243,236,.72);
+}
+.hog-studio-status.is-error{color:#ffc9bb;}
+.hog-studio-status.is-success{color:var(--hog-gold-soft);}
+
+/* ---- desktop: the studio sits in the right column beside the controls ---- */
+@media(min-width:761px){
+  #hog-studio{margin-top:1.1rem;}
+  .hog-studio-inner{padding:1.35rem;}
+}
+
+/* ---- mobile ------------------------------------------------------------- */
+@media(max-width:520px){
+  .hog-studio-inner{padding:.95rem .9rem 1.05rem;}
+  .hog-studio-actions-row{grid-template-columns:1fr;}
+  .hog-studio-thumb{width:52px;height:52px;}
+}
+
+/* ==========================================================================
+   PRE-EXISTING MOBILE OVERFLOW FIX — Custom Jewelry Studio container
+   Not caused by the concept studio. On phones .custom-choice-grid is a flex
+   row with flex-wrap:nowrap; the six piece buttons total ~446px, which forces
+   .custom-builder-step to 473px, which sets #custom-builder's grid column to
+   473px inside a 370px container. Result on a 390px phone: "Gemstones" is
+   clipped to "Ge", and the Name/Email/Phone fields, Submit button, contact
+   button, privacy note and summary all run off the right edge.
+   Letting the choice rows wrap collapses the column back to the container.
+   Scoped to #custom-builder only. Delete this block to revert.
+   ========================================================================== */
+@media(max-width:760px){
+  #custom-builder{grid-template-columns:minmax(0,1fr)!important;}
+  #custom-builder > *,
+  #custom-builder .hog-custom-left > *,
+  #custom-builder .hog-custom-right > *{min-width:0;}
+  #custom-builder .custom-choice-grid{
+    flex-wrap:wrap!important;
+    justify-content:flex-start;
+  }
+  #custom-builder .custom-choice{flex:0 0 auto;}
+}
+
+/* ==========================================================================
+   DESKTOP LAYOUT — applied only when the concept studio is live
+   (studio.js adds .hog-studio-active). Without the studio the builder keeps
+   exactly the layout it has today.
+
+   Controls run down the left; the concept and the running summary sit in a
+   sticky right rail so the customer can change options and watch the concept
+   without scrolling back and forth.
+   ========================================================================== */
+@media(min-width:761px){
+  .home-page #build-your-ideas .custom-builder.hog-custom-desktop-layout.hog-studio-active{
+    grid-template-columns:minmax(0,1fr) minmax(400px,.86fr)!important;
+    align-items:start!important;
+    gap:1rem 1.4rem!important;
+  }
+
+  /* left rail: even rhythm between every control block */
+  .home-page #build-your-ideas .hog-custom-desktop-layout.hog-studio-active .hog-custom-left{
+    display:grid;
+    gap:.85rem;
+    align-content:start;
+  }
+
+  /* right rail: concept first, summary beneath, pinned while the left scrolls */
+  .home-page #build-your-ideas .hog-custom-desktop-layout.hog-studio-active .hog-custom-right{
+    display:grid;
+    gap:.85rem;
+    align-content:start;
+    position:sticky;
+    top:96px;
+    /* The rail can be taller than the window once a concept and its revision
+       box are showing. Sticky alone would pin the top and park the bottom
+       (Update My Design) permanently below the fold, so cap it and let the
+       rail scroll inside itself. */
+    max-height:calc(100vh - 112px);
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(199,150,56,.5) transparent;
+    padding-right:2px;
+  }
+  .home-page #build-your-ideas .hog-custom-desktop-layout.hog-studio-active .hog-custom-right #hog-studio{
+    margin-top:0; /* the grid gap already spaces it */
+  }
+
+  /* the contact form is back in the wide column, so let it breathe */
+  .home-page #build-your-ideas .hog-custom-desktop-layout.hog-studio-active .hog-custom-left .custom-order-contact{
+    margin:0!important;
+  }
+  .home-page #build-your-ideas .hog-custom-desktop-layout.hog-studio-active .hog-custom-left .custom-builder-consent{
+    margin:0!important;
+  }
+
+  /* summary reads as a compact receipt under the concept, not a second hero */
+  .home-page #build-your-ideas .hog-custom-desktop-layout.hog-studio-active .hog-custom-right .custom-builder-summary{
+    margin:0!important;
+  }
+}
+
+/* Below 1180px the right rail gets tight; give the concept the room instead
+   of letting the two columns fight over it. */
+@media(min-width:761px) and (max-width:1179px){
+  .home-page #build-your-ideas .custom-builder.hog-custom-desktop-layout.hog-studio-active{
+    grid-template-columns:minmax(0,1fr) minmax(340px,.8fr)!important;
+  }
+  .home-page #build-your-ideas .hog-custom-desktop-layout.hog-studio-active .hog-studio-inner{padding:1.05rem;}
+}
+
+/* The running summary sits under the concept as a compact receipt. At its
+   inherited 21.6px it wrapped to five lines and out-shouted the concept
+   image above it, which is the thing we actually want the customer looking
+   at. Right rail only - the mobile summary is untouched. */
+@media(min-width:761px){
+  .home-page #build-your-ideas .hog-custom-desktop-layout.hog-studio-active .hog-custom-right .custom-builder-summary{
+    padding:.95rem 1.05rem!important;
+    border-radius:14px!important;
+  }
+  .home-page #build-your-ideas .hog-custom-desktop-layout.hog-studio-active .hog-custom-right .custom-builder-summary .eyebrow{
+    font-size:.6rem!important;
+    letter-spacing:.2em!important;
+    margin-bottom:.3rem!important;
+  }
+  .home-page #build-your-ideas .hog-custom-desktop-layout.hog-studio-active .hog-custom-right #custom-summary{
+    display:block;
+    font-size:.86rem!important;
+    font-weight:700!important;
+    line-height:1.45!important;
+  }
+  .home-page #build-your-ideas .hog-custom-desktop-layout.hog-studio-active .hog-custom-right .custom-builder-actions{
+    gap:.45rem!important;
+    margin-top:.7rem!important;
+  }
+  .home-page #build-your-ideas .hog-custom-desktop-layout.hog-studio-active .hog-custom-right .custom-builder-actions .button{
+    min-height:42px!important;
+    font-size:.82rem!important;
+    padding-left:.9rem!important;
+    padding-right:.9rem!important;
+  }
+}
+
+/* ==========================================================================
+   "YOUR CUSTOM REQUEST" FOLDED INTO THE CONCEPT PANEL
+   The cream summary card used to sit as a separate box under the black panel,
+   repeating the spec line and the Call to Start button that the panel already
+   carried. It now lives inside the panel, restyled dark, as the single live
+   record of what the customer is building.
+   ========================================================================== */
+#hog-studio .custom-builder-summary.hog-studio-request{
+  display:block!important;
+  margin:.15rem 0 .9rem!important;
+  padding:.75rem .85rem!important;
+  border-radius:10px!important;
+  background:rgba(10,46,115,.34)!important;
+  border:1px solid var(--hog-hairline)!important;
+  box-shadow:none!important;
+}
+#hog-studio .hog-studio-request .eyebrow{
+  margin:0 0 .3rem!important;
+  color:var(--hog-gold)!important;
+  -webkit-text-fill-color:var(--hog-gold)!important;
+  font-size:.58rem!important;
+  font-weight:800!important;
+  letter-spacing:.2em!important;
+  text-transform:uppercase!important;
+}
+#hog-studio .hog-studio-request #custom-summary,
+#hog-studio .hog-studio-request strong{
+  display:block;
+  color:var(--hog-ivory)!important;
+  -webkit-text-fill-color:var(--hog-ivory)!important;
+  font-size:.84rem!important;
+  font-weight:700!important;
+  line-height:1.45!important;
+  text-shadow:none!important;
+}
+#hog-studio .hog-studio-request .custom-builder-actions{
+  display:grid!important;
+  grid-template-columns:1fr 1fr;
+  gap:.4rem!important;
+  margin-top:.65rem!important;
+}
+#hog-studio .hog-studio-request .button{
+  min-height:40px!important;
+  padding:.45rem .7rem!important;
+  border-radius:8px!important;
+  font-size:.76rem!important;
+  font-weight:800!important;
+  box-shadow:none!important;
+}
+/* Copy Design Details: quiet secondary inside a dark card */
+#hog-studio .hog-studio-request #copy-custom-design{
+  background:rgba(255,255,255,.08)!important;
+  color:var(--hog-ivory)!important;
+  -webkit-text-fill-color:var(--hog-ivory)!important;
+  border:1px solid var(--hog-hairline)!important;
+}
+#hog-studio .hog-studio-request #copy-custom-design:hover{
+  background:rgba(255,255,255,.13)!important;
+  border-color:rgba(199,150,56,.5)!important;
+}
+#hog-studio .hog-studio-request a.button{
+  background:transparent!important;
+  color:var(--hog-ivory)!important;
+  -webkit-text-fill-color:var(--hog-ivory)!important;
+  border:1px solid rgba(199,150,56,.55)!important;
+}
+#hog-studio .hog-studio-request a.button:hover{
+  background:rgba(199,150,56,.14)!important;
+}
+#hog-studio .hog-studio-request .custom-copy-status{
+  margin:.45rem 0 0!important;
+  color:var(--hog-gold-soft)!important;
+  -webkit-text-fill-color:var(--hog-gold-soft)!important;
+  font-size:.72rem!important;
+}
+
+/* De-duplicate. The panel previously showed the spec twice and offered two
+   Call to Start buttons once the request card moved inside it. The live
+   summary above is the one that stays. */
+#hog-studio .hog-studio-merged-hide{display:none!important;}
+.hog-studio-merged #hog-studio #hog-studio-summary{display:none!important;}
+.hog-studio-merged #hog-studio #hog-studio-call{display:none!important;}
+
+/* The right rail now holds a single card. */
+@media(min-width:761px){
+  .home-page #build-your-ideas .hog-custom-desktop-layout.hog-studio-active .hog-custom-right{
+    gap:0;
+  }
+}
+
+/* One blue workspace for options and the customer's concept. */
+.home-page #build-your-ideas #custom-builder.hog-studio-unified{display:block!important}
+#custom-builder.hog-studio-unified>.hog-custom-left,#custom-builder.hog-studio-unified>.hog-custom-right{position:static!important;display:block!important;width:100%!important}
+#hog-studio .hog-studio-workspace{display:grid;grid-template-columns:minmax(0,1fr);gap:24px}
+#hog-studio .hog-studio-tools,#hog-studio .hog-studio-preview{min-width:0}
+#hog-studio .hog-studio-tools .custom-builder-step{display:block!important;background:#102a50!important;border:1px solid #3f587c!important;border-radius:14px!important;margin:0 0 12px!important;padding:16px!important;color:#fff!important}
+#hog-studio .hog-studio-tools h3,#hog-studio .hog-studio-tools label>span,#hog-studio .hog-studio-eyebrow{font-family:Arial,Helvetica,sans-serif!important;font-weight:900!important;letter-spacing:-.02em!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
+#hog-studio .hog-studio-tools h3{font-size:18px!important;line-height:1.25!important;margin:0 0 12px!important}
+#hog-studio .hog-studio-eyebrow{font-size:20px!important;text-transform:uppercase;letter-spacing:.02em!important}
+#hog-studio .hog-studio-tools .custom-choice-grid{display:flex!important;flex-wrap:wrap!important;gap:8px!important}
+#hog-studio .hog-studio-tools .custom-choice{background:#1b3a65!important;color:#fff!important;border:1px solid #7186a6!important;font-family:Arial,Helvetica,sans-serif!important;font-size:14px!important;font-weight:800!important;min-height:44px!important;padding:10px 12px!important;border-radius:10px!important;box-shadow:none!important}
+#hog-studio .hog-studio-tools .custom-choice.is-selected{background:#ebc976!important;color:#102344!important;border-color:#ebc976!important}
+#hog-studio .hog-studio-tools label{display:block!important;margin:0 0 14px!important}
+#hog-studio .hog-studio-tools label>span{display:block;margin-bottom:7px;font-size:14px!important}
+#hog-studio .hog-studio-tools input,#hog-studio .hog-studio-tools select,#hog-studio .hog-studio-tools textarea{width:100%!important;max-width:100%;min-height:46px!important;background:#fff!important;color:#14213b!important;-webkit-text-fill-color:#14213b!important;font:16px Arial,Helvetica,sans-serif!important;border:1px solid #aabbd2!important;border-radius:9px!important;padding:12px!important}
+#hog-studio .hog-studio-tools textarea{min-height:110px!important}
+#hog-studio .hog-studio-tools input::placeholder,#hog-studio .hog-studio-tools textarea::placeholder{color:#52627a!important;-webkit-text-fill-color:#52627a!important}
+#hog-studio button:focus-visible,#hog-studio input:focus-visible,#hog-studio textarea:focus-visible,#hog-studio select:focus-visible{outline:3px solid #ebc976!important;outline-offset:3px}
+@media(min-width:900px){#hog-studio .hog-studio-workspace{grid-template-columns:minmax(280px,.85fr) minmax(0,1.15fr)}#hog-studio .hog-studio-preview{align-self:start;position:sticky;top:100px}}
+@media(max-width:600px){#hog-studio .hog-studio-inner{padding:14px}#hog-studio .hog-studio-head{flex-wrap:wrap}#hog-studio .hog-studio-tools .custom-builder-step{padding:12px!important}}

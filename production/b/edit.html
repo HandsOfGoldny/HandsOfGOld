@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#080B12">
+<title>Manage bracelet · Hands of Gold</title>
+<link rel="stylesheet" href="/b/bracelet.css">
+</head>
+<body>
+<main class="wrap">
+  <div class="brand"><a href="https://www.handsofgoldny.com/">Hands of Gold</a></div>
+
+  <!-- Step 1: unlock -->
+  <section class="card" id="step1">
+    <p class="eyebrow">Owner access</p>
+    <h1>Manage your bracelet</h1>
+    <p class="sub">Enter the owner code printed on the card that came with your bracelet.</p>
+    <div class="alert alert-error hidden" id="err1"></div>
+    <form id="unlockForm" novalidate>
+      <div class="field">
+        <label for="bid">Bracelet ID</label>
+        <input type="text" id="bid" class="mono code" maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="8 characters">
+      </div>
+      <div class="field">
+        <label for="code">Owner code</label>
+        <input type="text" id="code" class="mono code" maxlength="19" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="XXXX-XXXX-XXXX-XXXX">
+        <div class="hint">Keep this card somewhere safe — anyone with the code can change where your bracelet sends money.</div>
+      </div>
+      <button class="btn btn-gold btn-block" id="unlockBtn" type="submit">Continue</button>
+    </form>
+  </section>
+
+  <!-- Step 2: edit -->
+  <section class="card hidden" id="step2">
+    <p class="eyebrow" id="step2Eyebrow">Bracelet settings</p>
+    <h1 id="step2Title">Set up your bracelet</h1>
+    <p class="sub">This is what people see when they tap your bracelet.</p>
+    <div class="alert alert-error hidden" id="err2"></div>
+    <form id="saveForm" novalidate>
+      <div class="field">
+        <label for="name">Display name <span class="tag">optional</span></label>
+        <input type="text" id="name" maxlength="40" autocomplete="off" placeholder="e.g. Julio">
+      </div>
+
+      <div class="field">
+        <label for="address">Bitcoin receiving address</label>
+        <input type="text" id="address" class="mono" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="bc1q… or 3… or 1…">
+        <div class="hint" id="addrStatus">In your wallet app tap <b>Receive → Bitcoin</b>, make sure the network says <b>Bitcoin</b>, then copy and paste the address here.</div>
+      </div>
+
+      <div class="field">
+        <label for="lightning">Lightning address <span class="tag">optional</span></label>
+        <input type="text" id="lightning" class="mono" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="name@wallet.com">
+        <div class="hint" id="lnStatus">Only if your wallet gives you one (looks like an email). Leave blank if unsure.</div>
+      </div>
+
+      <div class="field">
+        <label>Show on your bracelet page</label>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="show" value="off" checked><div><b>Nothing extra</b><span>Just your address and QR code. Most private.</span></div></label>
+          <label class="choice"><input type="radio" name="show" value="received"><div><b>Total received</b><span>Everything ever sent to this address. Best for Cash App / Coinbase, which move coins out of receiving addresses.</span></div></label>
+          <label class="choice"><input type="radio" name="show" value="balance"><div><b>Current balance</b><span>What's sitting at this address now. Only meaningful with your own wallet.</span></div></label>
+        </div>
+        <div class="alert alert-warn" id="flexWarn" style="margin-top:10px" hidden>Heads up: anyone who taps your bracelet will see this amount. Only share what you're comfortable with strangers knowing.</div>
+      </div>
+
+      <button class="btn btn-gold btn-block" id="saveBtn" type="submit">Save bracelet</button>
+    </form>
+  </section>
+
+  <!-- Step 3: done -->
+  <section class="card hidden" id="step3">
+    <p class="eyebrow">All set</p>
+    <h1>Your bracelet is live</h1>
+    <p class="sub" id="doneMsg">Tap it with any phone to test it.</p>
+    <a class="btn btn-gold btn-block" id="viewLink" href="#">View my bracelet page</a>
+    <p class="note">You can change your address anytime by coming back here with your owner code.</p>
+  </section>
+
+  <footer class="foot">
+    <div>Hands of Gold never holds your bitcoin or your keys — your bracelet only points to your address.</div>
+    <div style="margin-top:8px">Need help? Call <a href="tel:+16312646610">631-264-6610</a></div>
+  </footer>
+</main>
+
+<script type="module">
+import { parseBitcoinAddress, parseLightningAddress } from '/b/btc.mjs';
+
+const API = '/api/bracelet';
+const $ = (id) => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const ID_RE = /^[23456789ABCDEFGHJKMNPQRSTVWXYZ]{8}$/;
+let session = { i: '', code: '' };
+
+const preId = (params.get('i') || '').trim().toUpperCase();
+if (ID_RE.test(preId)) { $('bid').value = preId; $('bid').readOnly = true; $('code').focus(); }
+
+// Format owner code as XXXX-XXXX-XXXX-XXXX while typing
+$('code').addEventListener('input', (e) => {
+  const raw = e.target.value.toUpperCase().replace(/[^0-9A-Z]/g, '').slice(0, 16);
+  e.target.value = raw.match(/.{1,4}/g)?.join('-') || '';
+});
+
+function showErr(el, msg) { $(el).textContent = msg; $(el).classList.toggle('hidden', !msg); }
+async function call(body) {
+  const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  let j = {}; try { j = await r.json(); } catch {}
+  if (!r.ok) throw new Error(j.error || 'Something went wrong. Please try again.');
+  return j;
+}
+
+$('unlockForm').addEventListener('submit', async (e) => {
+  e.preventDefault(); showErr('err1', '');
+  const i = $('bid').value.trim().toUpperCase();
+  const code = $('code').value.replace(/[^0-9A-Z]/gi, '').toUpperCase();
+  if (!ID_RE.test(i)) return showErr('err1', 'The bracelet ID is 8 letters/numbers. It\'s on your owner card.');
+  if (code.length !== 16) return showErr('err1', 'The owner code is 16 letters/numbers.');
+  $('unlockBtn').disabled = true;
+  try {
+    const d = await call({ action: 'check', i, code });
+    session = { i, code };
+    $('name').value = d.name || '';
+    $('address').value = d.address || '';
+    $('lightning').value = d.lightning || '';
+    const r = document.querySelector(`input[name=show][value="${d.show || 'off'}"]`); if (r) r.checked = true;
+    if (d.status === 'active') { $('step2Title').textContent = 'Update your bracelet'; }
+    validateAddr(); validateLn(); flexWarn();
+    $('step1').classList.add('hidden'); $('step2').classList.remove('hidden');
+  } catch (err) { showErr('err1', err.message); }
+  finally { $('unlockBtn').disabled = false; }
+});
+
+function validateAddr() {
+  const v = $('address').value.trim(), el = $('addrStatus');
+  if (!v) return false;
+  const p = parseBitcoinAddress(v);
+  el.className = 'hint ' + (p ? 'valid' : 'invalid');
+  el.textContent = p ? `✓ Valid Bitcoin address (${p.type})` : '✗ Not a valid Bitcoin address. Copy it directly from your wallet — don\'t type it.';
+  return !!p;
+}
+function validateLn() {
+  const v = $('lightning').value.trim(), el = $('lnStatus');
+  if (!v) { el.className = 'hint'; el.textContent = 'Only if your wallet gives you one (looks like an email). Leave blank if unsure.'; return true; }
+  const ok = !!parseLightningAddress(v);
+  el.className = 'hint ' + (ok ? 'valid' : 'invalid');
+  el.textContent = ok ? '✓ Looks like a Lightning address' : '✗ Should look like name@wallet.com';
+  return ok;
+}
+function flexWarn() { $('flexWarn').hidden = document.querySelector('input[name=show]:checked').value === 'off'; }
+$('address').addEventListener('input', validateAddr);
+$('lightning').addEventListener('input', validateLn);
+document.querySelectorAll('input[name=show]').forEach((r) => r.addEventListener('change', flexWarn));
+
+$('saveForm').addEventListener('submit', async (e) => {
+  e.preventDefault(); showErr('err2', '');
+  if (!validateAddr()) return showErr('err2', 'Please paste a valid Bitcoin address.');
+  if (!validateLn()) return showErr('err2', 'Fix the Lightning address or leave it blank.');
+  $('saveBtn').disabled = true;
+  try {
+    await call({
+      action: 'save', ...session,
+      name: $('name').value, address: $('address').value, lightning: $('lightning').value,
+      show: document.querySelector('input[name=show]:checked').value,
+    });
+    $('viewLink').href = '/b/?i=' + encodeURIComponent(session.i);
+    $('step2').classList.add('hidden'); $('step3').classList.remove('hidden');
+  } catch (err) { showErr('err2', err.message); }
+  finally { $('saveBtn').disabled = false; }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+PURCHASING A PIECE
+Customers can browse the catalog and contact the store with their chosen piece or SKU. The store confirms availability, the full purchase price, and payment options.
+The legacy online payment flow is retired.

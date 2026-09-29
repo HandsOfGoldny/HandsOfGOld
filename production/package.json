@@ -1,0 +1,7 @@
+{
+  "name": "hands-of-gold-website",
+  "private": true,
+  "dependencies": {
+    "ai": "7.0.84"
+  }
+}

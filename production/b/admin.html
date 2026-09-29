@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Bracelet Admin · Hands of Gold</title>
+<!-- Staff page. Owner codes are generated in this browser; saving to the database requires the STAFF_ACCESS_CODE. -->
+<script src="/b/qr.js"></script>
+<style>
+  :root { --navy:#0A2E73; --black:#080B12; --gold:#C79638; --ivory:#F6F3EC; --line:#d9d4c7; }
+  body { font: 15px/1.5 Inter, system-ui, sans-serif; margin: 0; background: #f4f1ea; color: #111; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 24px 16px 60px; }
+  h1 { margin: 0 0 4px; } h2 { margin: 32px 0 8px; border-top: 2px solid var(--gold); padding-top: 16px; }
+  .muted { color: #666; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: end; }
+  label { font-weight: 600; font-size: 13px; display: block; margin-bottom: 4px; }
+  input { font: 15px Inter, sans-serif; padding: 9px 10px; border: 1px solid #bbb; border-radius: 8px; }
+  button { font: 600 14px Inter, sans-serif; padding: 10px 16px; border-radius: 8px; border: 0; background: var(--navy); color: #fff; cursor: pointer; }
+  button.gold { background: var(--gold); color: var(--black); }
+  textarea { width: 100%; height: 160px; font: 12px ui-monospace, Menlo, Consolas, monospace; border: 1px solid #bbb; border-radius: 8px; padding: 8px; box-sizing: border-box; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; background: #fff; }
+  th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; }
+  td.mono, .mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+  .warn { background: #fff3d6; border: 1px solid var(--gold); border-radius: 8px; padding: 10px 12px; margin: 12px 0; }
+  .steps li { margin-bottom: 6px; }
+  /* Printable owner cards: 3.5in x 2in business-card size */
+  #cards { display: grid; grid-template-columns: repeat(auto-fill, 3.5in); gap: 0.15in; margin-top: 12px; }
+  .ocard { width: 3.5in; height: 2in; box-sizing: border-box; background: var(--black); color: var(--ivory); border-radius: 8px; padding: 0.14in 0.16in; display: flex; gap: 0.12in; overflow: hidden; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .ocard .l { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .ocard .b { color: var(--gold); font-weight: 700; font-size: 8pt; letter-spacing: .25em; }
+  .ocard .t { font-family: 'Bodoni Moda', Georgia, serif; font-size: 10pt; margin: 2px 0 5px; white-space: nowrap; }
+  .ocard .k { font-size: 6.5pt; color: #b9b4a8; text-transform: uppercase; letter-spacing: .12em; }
+  .ocard .v { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 10.5pt; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .ocard .code { color: var(--gold); font-size: 10pt; }
+  .ocard .s { font-size: 6.2pt; color: #b9b4a8; margin-top: auto; line-height: 1.3; }
+  .ocard .q { width: 1.1in; align-self: center; background: #fff; border-radius: 4px; padding: 3px; }
+  .ocard .q svg { display: block; width: 100%; }
+  @media print {
+    body { background: #fff; } .wrap > *:not(#out), #out > *:not(#printArea) { display: none !important; } .wrap { padding: 0; max-width: none; }
+    #printArea h2, #printArea .noprint { display: none; } .ocard { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Bracelet Admin</h1>
+  <p class="muted">Hands of Gold staff only. Owner codes are created in this browser; the website only ever receives a scrambled fingerprint of each code.</p>
+  <div class="row" style="margin-top:12px">
+    <div><label for="staff">Staff access code</label><input id="staff" type="password" autocomplete="off" style="width:220px"></div>
+    <span class="muted" id="staffNote">Same code as your staff dashboard.</span>
+  </div>
+
+  <h2>1. Make a batch</h2>
+  <div class="row">
+    <div><label for="count">How many bracelets</label><input id="count" type="number" min="1" max="500" value="10" style="width:110px"></div>
+    <div><label for="batch">Batch name</label><input id="batch" type="text" value="" style="width:180px"></div>
+    <div><label for="base">Link base (don't change)</label><input id="base" type="text" value="https://www.handsofgoldny.com/b/?i=" style="width:320px"></div>
+    <button class="gold" id="go">Generate</button>
+  </div>
+  <div class="warn"><b>Owner codes are shown only once.</b> Download the CSV and print the cards before closing this page. The database stores only a scrambled fingerprint of each code, so a lost code can't be looked up — only replaced (section 3).</div>
+
+  <div id="out" hidden>
+    <h2>2. Do these in order</h2>
+    <ol class="steps">
+      <li><b>Save the CSV</b> (your private master list — keep it offline, e.g. a USB stick in the safe): <button id="dlCsv">Download CSV</button></li>
+      <li><b>Save them to the website:</b> <button class="gold" id="save">Add to database</button> <span id="saveMsg"></span></li>
+      <li><b>Program each chip</b> in NFC Tools: Write → Add a record → URL → paste the chip link from the table → Write. Tap it to test, then Other → <b>Lock tag</b>.</li>
+      <li><b>Print the owner cards</b> (one goes in each box with the matching bracelet): <button id="print">Print cards</button></li>
+    </ol>
+    <table style="margin-top:12px"><thead><tr><th>#</th><th>Bracelet ID</th><th>Chip link (write this to the chip)</th><th>Owner code (card only)</th></tr></thead><tbody id="rows"></tbody></table>
+    <div id="printArea"><h2>Owner cards</h2><div id="cards"></div></div>
+  </div>
+
+  <h2>3. Reset one bracelet's owner code</h2>
+  <p class="muted">For a customer who lost their card. Verify it's really them first (receipt / ID in store) — whoever has the code controls where payments go.</p>
+  <div class="row">
+    <div><label for="rid">Bracelet ID</label><input id="rid" class="mono" maxlength="8" style="width:140px;text-transform:uppercase"></div>
+    <button id="reset">Make new code</button>
+  </div>
+  <div id="resetOut" hidden>
+    <p>New owner code: <b class="mono" id="newCode"></b> — write it on a fresh card for the customer.</p>
+  </div>
+  <p id="resetMsg"></p>
+
+  <h2>4. All bracelets</h2>
+  <div class="row"><button id="list">Load list</button><span class="muted">Disable a lost/stolen bracelet — its tap page will stop showing the address.</span></div>
+  <table style="margin-top:12px" id="listTable" hidden><thead><tr><th>ID</th><th>Status</th><th>Name</th><th>Address</th><th>Batch</th><th></th></tr></thead><tbody id="listRows"></tbody></table>
+</div>
+
+<script>
+const ALPHA = '23456789ABCDEFGHJKMNPQRSTVWXYZ'; // no 0/O, 1/I/L, U — easy to read aloud
+const $ = (id) => document.getElementById(id);
+$('batch').value = 'batch-' + new Date().toISOString().slice(0, 10);
+
+function rand(n) {
+  // unbiased pick from ALPHA using rejection sampling
+  const out = []; const buf = new Uint8Array(1);
+  while (out.length < n) { crypto.getRandomValues(buf); if (buf[0] < 240) out.push(ALPHA[buf[0] % 30]); }
+  return out.join('');
+}
+async function sha256hex(s) {
+  const h = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return [...new Uint8Array(h)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+const fmtCode = (c) => c.match(/.{4}/g).join('-');
+const esc = (s) => String(s).replace(/'/g, "''");
+let current = [];
+
+$('go').onclick = async () => {
+  const n = Math.max(1, Math.min(500, parseInt($('count').value, 10) || 1));
+  const batch = $('batch').value.trim() || 'batch';
+  const base = $('base').value.trim();
+  const ids = new Set(); current = [];
+  while (current.length < n) {
+    const id = rand(8); if (ids.has(id)) continue; ids.add(id);
+    const code = rand(16);
+    current.push({ id, code, url: base + id, hash: await sha256hex(id + ':' + code) });
+  }
+  $('saveMsg').textContent = ''; $('save').disabled = false;
+  $('rows').innerHTML = current.map((r, i) => `<tr><td>${i + 1}</td><td class="mono">${r.id}</td><td class="mono">${r.url}</td><td class="mono">${fmtCode(r.code)}</td></tr>`).join('');
+  const editBase = base.replace(/\/b\/\?i=$/, '/b/edit.html?i=');
+  $('cards').innerHTML = current.map((r) => `
+    <div class="ocard"><div class="l">
+      <div class="b">HANDS OF GOLD</div><div class="t">Bitcoin Bracelet Owner Card</div>
+      <div class="k">Bracelet ID</div><div class="v">${r.id}</div>
+      <div class="k">Owner code — keep secret</div><div class="v code">${fmtCode(r.code)}</div>
+      <div class="s">Scan to activate or change your address. This code controls where payments go — keep it safe.</div>
+    </div><div class="q">${HOGQR.svg(editBase + r.id, { level: 'M', border: 1 })}</div></div>`).join('');
+  $('out').hidden = false;
+  $('out').scrollIntoView({ behavior: 'smooth' });
+};
+
+$('dlCsv').onclick = () => {
+  const csv = 'bracelet_id,chip_link,owner_code,batch\n' + current.map((r) => `${r.id},${r.url},${fmtCode(r.code)},${$('batch').value.trim()}`).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+  a.download = ($('batch').value.trim() || 'bracelets') + '-PRIVATE.csv'; a.click();
+};
+async function api(body) {
+  const r = await fetch('/api/bracelet', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ staff: $('staff').value, ...body }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || ('Error ' + r.status));
+  return j;
+}
+$('save').onclick = async () => {
+  if (!$('staff').value) return alert('Enter the staff access code at the top first.');
+  $('save').disabled = true; $('saveMsg').textContent = 'Saving…';
+  try {
+    const j = await api({ action: 'admin-add', rows: current.map((r) => ({ id: r.id, hash: r.hash, batch: $('batch').value.trim() })) });
+    $('saveMsg').textContent = `✓ Added ${j.added}` + (j.skipped.length ? ` — skipped ${j.skipped.join(', ')}` : '');
+  } catch (e) { $('saveMsg').textContent = '✗ ' + e.message; $('save').disabled = false; }
+};
+$('print').onclick = () => window.print();
+
+$('reset').onclick = async () => {
+  const id = $('rid').value.trim().toUpperCase();
+  if (!/^[23456789ABCDEFGHJKMNPQRSTVWXYZ]{8}$/.test(id)) return alert('Bracelet ID should be 8 characters.');
+  const code = rand(16);
+  if (!$('staff').value) return alert('Enter the staff access code at the top first.');
+  $('resetOut').hidden = true; $('resetMsg').textContent = 'Saving…';
+  try {
+    await api({ action: 'admin-reset', i: id, hash: await sha256hex(id + ':' + code) });
+    $('newCode').textContent = fmtCode(code); $('resetOut').hidden = false; $('resetMsg').textContent = '✓ Old code no longer works.';
+  } catch (e) { $('resetMsg').textContent = '✗ ' + e.message; }
+};
+
+const escH = (t) => String(t ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+async function loadList() {
+  if (!$('staff').value) return alert('Enter the staff access code at the top first.');
+  try {
+    const j = await api({ action: 'admin-list' });
+    $('listRows').innerHTML = j.rows.map((r) => `<tr><td class="mono"><a href="/b/?i=${r.id}" target="_blank">${r.id}</a></td><td>${escH(r.status)}</td><td>${escH(r.name)}</td><td class="mono" style="font-size:11px">${escH(r.address)}</td><td>${escH(r.batch)}</td><td><button data-id="${r.id}" data-act="${r.status === 'disabled' ? 'admin-enable' : 'admin-disable'}">${r.status === 'disabled' ? 'Enable' : 'Disable'}</button></td></tr>`).join('') || '<tr><td colspan="6">No bracelets yet.</td></tr>';
+    $('listTable').hidden = false;
+  } catch (e) { alert(e.message); }
+}
+$('list').onclick = loadList;
+$('listRows').onclick = async (e) => {
+  const b = e.target.closest('button[data-id]'); if (!b) return;
+  try { await api({ action: b.dataset.act, i: b.dataset.id }); loadList(); } catch (err) { alert(err.message); }
+};
+</script>
+</body>
+</html>

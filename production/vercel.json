@@ -1,0 +1,29 @@
+{
+  "redirects": [
+    {
+      "source": "/we-buy-gold.html",
+      "destination": "/sell-gold.html",
+      "permanent": true
+    },
+    {
+      "source": "/we-buy-gold",
+      "destination": "/sell-gold.html",
+      "permanent": true
+    },
+    {
+      "source": "/shop.html",
+      "destination": "/index.html",
+      "permanent": true
+    },
+    {
+      "source": "/shop",
+      "destination": "/index.html",
+      "permanent": true
+    }
+  ],
+  "functions": {
+    "api/design.js": {
+      "maxDuration": 300
+    }
+  }
+}

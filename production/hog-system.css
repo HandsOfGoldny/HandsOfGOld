@@ -1,0 +1,490 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@700..900&family=Inter:wght@400..900&display=swap');
+/* Hands of Gold Unified Design System — v9 — 2026-09-06
+   One visual language across homepage, service pages, Monaci, products, and policies.
+*/
+:root{
+  --hog-navy:#071a49;
+  --hog-navy-2:#0d2b67;
+  --hog-red:#c8102e;
+  --hog-gold:#c79638;
+  --hog-gold-soft:#e4c77d;
+  --hog-ink:#0f172a;
+  --hog-muted:#667085;
+  --hog-bg:#f6f7fb;
+  --hog-surface:#ffffff;
+  --hog-line:rgba(7,26,73,.12);
+  --hog-line-strong:rgba(7,26,73,.20);
+  --hog-shadow:0 16px 48px rgba(7,26,73,.08);
+  --hog-radius:18px;
+  --hog-radius-sm:12px;
+  --hog-max:1180px;
+  --hog-font:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --hog-display:"Bodoni Moda","Didot","Bodoni MT",Georgia,"Times New Roman",serif;
+}
+html{scroll-behavior:smooth;scroll-padding-top:88px;-webkit-text-size-adjust:100%}
+body.hog-system-v1{margin:0;background:var(--hog-bg);color:var(--hog-ink);font-family:var(--hog-font);font-size:16px;line-height:1.55;overflow-x:hidden}
+body.hog-system-v1 *{box-sizing:border-box}
+body.hog-system-v1 img,body.hog-system-v1 video,body.hog-system-v1 iframe{max-width:100%}
+body.hog-system-v1 .container{width:min(var(--hog-max),calc(100% - 40px));margin-inline:auto}
+body.hog-system-v1 h1,body.hog-system-v1 h2,body.hog-system-v1 h3{color:var(--hog-ink);text-wrap:balance}
+body.hog-system-v1 h1,body.hog-system-v1 h2{font-family:var(--hog-display);letter-spacing:-.025em}
+body.hog-system-v1 a{transition:color .18s ease,background .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease}
+body.hog-system-v1 :focus-visible{outline:3px solid rgba(199,150,56,.55);outline-offset:3px}
+
+/* Retire legacy chrome. The new header/footer below are the only global chrome. */
+body.hog-system-v1 .site-header:not(.hog-global-header),
+body.hog-system-v1 .hog-sub-head,
+body.hog-system-v1 .cc-header{display:none!important}
+body.hog-system-v1 .site-footer,
+body.hog-system-v1 .hog-sub-footer,
+body.hog-system-v1 .cc-footer{display:none!important}
+
+/* ===== Unified header ===== */
+.hog-global-header.site-header{position:sticky!important;top:0!important;z-index:900!important;background:rgba(255,255,255,.94)!important;backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border-bottom:1px solid var(--hog-line)!important;box-shadow:0 8px 30px rgba(7,26,73,.055)!important;min-height:68px!important;height:auto!important}
+.hog-global-inner{width:min(var(--hog-max),calc(100% - 40px));min-height:68px;margin:auto;display:flex;align-items:center;gap:20px}
+.hog-global-brand{display:flex;align-items:center;gap:11px;color:var(--hog-ink)!important;text-decoration:none;min-width:max-content}
+.hog-global-brand img{width:48px;height:48px;object-fit:cover;border-radius:12px;border:1px solid rgba(199,150,56,.30)}
+.hog-global-brand-copy{display:grid;line-height:1}
+.hog-global-brand-copy strong{font-size:.88rem;letter-spacing:.12em;text-transform:uppercase}
+.hog-global-brand-copy small{margin-top:5px;color:#8a6b2d;font-size:.62rem;font-weight:800;letter-spacing:.10em;text-transform:uppercase}
+.hog-global-nav.site-nav{position:static!important;display:flex!important;align-items:center!important;gap:4px!important;margin-left:auto!important;padding:0!important;background:none!important;box-shadow:none!important;border:0!important;max-height:none!important;overflow:visible!important}
+.hog-global-nav a{display:flex!important;align-items:center!important;min-height:42px!important;padding:0 12px!important;border-radius:10px!important;color:#26324a!important;text-decoration:none!important;font-size:.78rem!important;font-weight:800!important;letter-spacing:.015em!important;white-space:nowrap!important}
+.hog-global-nav a:hover{background:#f0f3f9!important;color:var(--hog-navy)!important}
+.hog-global-actions{display:flex;align-items:center;gap:8px}
+.hog-global-call{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 14px;border-radius:10px;background:var(--hog-navy);color:#fff!important;text-decoration:none;font-size:.78rem;font-weight:900;white-space:nowrap}
+.hog-global-call:hover{background:var(--hog-navy-2);transform:translateY(-1px)}
+.hog-global-menu{display:none;position:relative}
+.hog-global-menu summary{list-style:none;width:44px;height:44px;border:1px solid var(--hog-line);border-radius:12px;background:#fff;cursor:pointer;display:grid;place-items:center}
+.hog-global-menu summary::-webkit-details-marker{display:none}.hog-global-menu summary::marker{display:none}
+.hog-menu-icon,.hog-menu-icon:before,.hog-menu-icon:after{display:block;width:20px;height:2px;background:var(--hog-ink);border-radius:2px;content:"";position:relative}
+.hog-menu-icon:before{position:absolute;top:-6px}.hog-menu-icon:after{position:absolute;top:6px}
+.hog-global-menu-panel{position:absolute;right:0;top:52px;width:min(310px,calc(100vw - 28px));padding:10px;border:1px solid var(--hog-line);border-radius:16px;background:rgba(255,255,255,.98);box-shadow:0 24px 70px rgba(7,26,73,.18);display:grid;gap:3px}
+.hog-global-menu-panel a{min-height:46px;display:flex;align-items:center;padding:0 13px;border-radius:10px;color:var(--hog-ink)!important;text-decoration:none;font-weight:800;font-size:.9rem}
+.hog-global-menu-panel a:hover{background:#f1f4f9;color:var(--hog-navy)!important}
+.hog-global-menu-panel .hog-menu-sale{background:var(--hog-red);color:#fff!important;margin-bottom:3px}
+
+/* ===== Labor Day campaign — concise, functional, consistent ===== */
+body.hog-system-v1 .hog-ldbar{position:relative!important;z-index:890!important;background:var(--hog-navy)!important;border:0!important;border-bottom:2px solid var(--hog-gold)!important;box-shadow:none!important}
+body.hog-system-v1 .hog-ldbar:before{height:3px!important;background:linear-gradient(90deg,var(--hog-red) 0 33.333%,#fff 33.333% 66.666%,#16458f 66.666%)!important}
+body.hog-system-v1 .hog-ldin{min-height:46px!important;padding:6px 20px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:10px 14px!important;font-family:var(--hog-font)!important;font-size:.78rem!important;line-height:1!important}
+body.hog-system-v1 .hog-ldtitle{letter-spacing:.06em!important;text-transform:uppercase!important}
+body.hog-system-v1 .hog-lddeal{min-height:32px!important;padding:0 15px!important;background:var(--hog-red)!important;border:1px solid rgba(255,255,255,.65)!important}
+body.hog-system-v1 .hog-ldsavings{min-height:32px!important;padding:0 15px!important;background:#fff!important;color:var(--hog-navy)!important;border:1px solid #fff!important}
+body.hog-system-v1 .hog-ldin>a{min-height:32px!important;padding:0 15px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;background:#fff!important;color:#9c0b27!important;border-radius:10px!important;box-shadow:none!important;font-weight:900!important}
+
+/* ===== Universal homepage hero ===== */
+body.home-page.hog-system-v1 .future-mobile-hero{display:block!important;position:relative!important;height:clamp(500px,66vh,720px)!important;min-height:500px!important;overflow:hidden!important;background:#080b12!important;color:#fff!important}
+body.home-page.hog-system-v1 .future-mobile-media,body.home-page.hog-system-v1 .future-mobile-media img,body.home-page.hog-system-v1 .future-mobile-media video,body.home-page.hog-system-v1 .future-mobile-shade{position:absolute!important;inset:0!important;width:100%!important;height:100%!important}
+body.home-page.hog-system-v1 .future-mobile-media img,body.home-page.hog-system-v1 .future-mobile-media video{object-fit:cover!important;object-position:center 48%!important;display:block!important}
+body.home-page.hog-system-v1 .future-mobile-shade{background:linear-gradient(180deg,rgba(4,8,18,.02) 35%,rgba(4,8,18,.10) 58%,rgba(4,8,18,.76) 100%)!important}
+body.home-page.hog-system-v1 .future-mobile-content{position:absolute!important;left:max(24px,calc((100vw - var(--hog-max))/2))!important;right:24px!important;bottom:34px!important;z-index:2!important;max-width:560px!important}
+body.home-page.hog-system-v1 .future-kicker{margin:0 0 14px!important;color:var(--hog-gold-soft)!important;font-family:var(--hog-font)!important;font-size:.72rem!important;font-weight:900!important;letter-spacing:.18em!important;text-transform:uppercase!important}
+body.home-page.hog-system-v1 .future-mobile-actions{display:flex!important;gap:10px!important;flex-wrap:wrap!important}
+body.home-page.hog-system-v1 .future-mobile-actions a{min-width:155px!important;min-height:50px!important;border-radius:12px!important;padding:0 20px!important;font-family:var(--hog-font)!important;font-size:.86rem!important;font-weight:900!important;text-decoration:none!important}
+body.home-page.hog-system-v1 .future-primary{background:#fff!important;color:var(--hog-ink)!important}
+body.home-page.hog-system-v1 .future-secondary{background:rgba(7,26,73,.66)!important;color:#fff!important;border:1px solid rgba(255,255,255,.52)!important;backdrop-filter:blur(10px)!important}
+body.home-page.hog-system-v1 .hog-desktop-hero,body.home-page.hog-system-v1 .hero-section,body.home-page.hog-system-v1 .homepage-hero{display:none!important}
+
+/* ===== Homepage rhythm: sell jewelry first, then explain ===== */
+body.home-page.hog-system-v1 #featured-products,
+body.home-page.hog-system-v1 #build-your-ideas,
+body.home-page.hog-system-v1 #reviews,
+body.home-page.hog-system-v1 #payment-options,
+body.home-page.hog-system-v1 .quick-services-section,
+body.home-page.hog-system-v1 #sell-gold,
+body.home-page.hog-system-v1 #visit{padding:clamp(44px,6vw,78px) 0!important;margin:0!important}
+body.home-page.hog-system-v1 #featured-products,body.home-page.hog-system-v1 #reviews,body.home-page.hog-system-v1 #sell-gold{background:#fff!important}
+body.home-page.hog-system-v1 #build-your-ideas,body.home-page.hog-system-v1 .quick-services-section,body.home-page.hog-system-v1 #visit{background:var(--hog-bg)!important}
+body.home-page.hog-system-v1 .trust-band{background:var(--hog-navy)!important;border:0!important;color:#fff!important;min-height:46px!important;padding:0!important}
+body.home-page.hog-system-v1 .trust-band-inner{min-height:46px!important;display:grid!important;grid-template-columns:repeat(4,1fr)!important;align-items:center!important;gap:0!important;padding:0!important}
+body.home-page.hog-system-v1 .trust-band span{color:#fff!important;font-family:var(--hog-font)!important;font-size:.68rem!important;font-weight:900!important;letter-spacing:.10em!important;text-transform:uppercase!important;text-align:center!important}
+body.home-page.hog-system-v1 .eyebrow,body.hog-system-v1 .hog-kicker,body.hog-system-v1 .cc-eyebrow,body.hog-system-v1 .product-eyebrow{color:#9b7428!important;font-family:var(--hog-font)!important;font-size:.7rem!important;font-weight:900!important;letter-spacing:.14em!important;text-transform:uppercase!important}
+body.home-page.hog-system-v1 .fire-stock-heading{font-size:clamp(2.5rem,5vw,4.6rem)!important;line-height:.95!important;margin:.15em 0!important}
+body.home-page.hog-system-v1 .curated-catalog-heading{align-items:end!important;gap:24px!important;margin-bottom:24px!important}
+body.home-page.hog-system-v1 .catalog-filter-row{display:flex!important;gap:8px!important;overflow-x:auto!important;scrollbar-width:none!important;padding:2px 0 14px!important}
+body.home-page.hog-system-v1 .catalog-filter{min-height:42px!important;padding:0 16px!important;border:1px solid var(--hog-line)!important;border-radius:10px!important;background:#fff!important;color:var(--hog-ink)!important;font-family:var(--hog-font)!important;font-weight:850!important;white-space:nowrap!important}
+body.home-page.hog-system-v1 .catalog-filter.is-active{background:var(--hog-navy)!important;color:#fff!important;border-color:var(--hog-navy)!important}
+body.home-page.hog-system-v1 .catalog-product-grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:14px!important}
+body.home-page.hog-system-v1 .catalog-product-card{background:#fff!important;border:1px solid var(--hog-line)!important;border-radius:var(--hog-radius)!important;overflow:hidden!important;box-shadow:none!important;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease!important}
+body.home-page.hog-system-v1 .catalog-product-card:hover{transform:translateY(-3px)!important;box-shadow:var(--hog-shadow)!important;border-color:rgba(199,150,56,.34)!important}
+body.home-page.hog-system-v1 .catalog-product-image{background:#0a0d13!important;aspect-ratio:1/1!important;overflow:hidden!important}
+body.home-page.hog-system-v1 .catalog-product-image img,body.home-page.hog-system-v1 .catalog-product-image video{width:100%!important;height:100%!important;object-fit:cover!important}
+body.home-page.hog-system-v1 .catalog-product-copy{padding:14px!important}
+body.home-page.hog-system-v1 .catalog-product-copy h3{font-family:var(--hog-font)!important;font-size:.95rem!important;line-height:1.25!important;margin:.45rem 0!important}
+body.home-page.hog-system-v1 .catalog-product-copy p{color:var(--hog-muted)!important;font-size:.78rem!important;line-height:1.5!important}
+body.home-page.hog-system-v1 .catalog-product-footer{font-size:.72rem!important;gap:8px!important}
+
+/* Unified buttons across all customer pages */
+body.hog-system-v1 .button,body.hog-system-v1 .product-action,body.hog-system-v1 .hog-submit,body.hog-system-v1 .cc-btn,body.hog-system-v1 .hog-sub-actions a{min-height:48px;border-radius:12px!important;padding:.7rem 1.1rem!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;font-family:var(--hog-font)!important;font-weight:900!important;text-decoration:none!important;border:1px solid var(--hog-navy)!important;box-shadow:none!important}
+body.hog-system-v1 .button-primary,body.hog-system-v1 .product-action.primary,body.hog-system-v1 .hog-submit,body.hog-system-v1 .cc-primary,body.hog-system-v1 .hog-sub-actions a:not(.is-light){background:var(--hog-navy)!important;color:#fff!important;border-color:var(--hog-navy)!important}
+body.hog-system-v1 .button-secondary,body.hog-system-v1 .product-action:not(.primary),body.hog-system-v1 .cc-secondary,body.hog-system-v1 .hog-sub-actions a.is-light{background:#fff!important;color:var(--hog-navy)!important;border-color:var(--hog-line-strong)!important}
+body.hog-system-v1 .button:hover,body.hog-system-v1 .product-action:hover,body.hog-system-v1 .hog-submit:hover,body.hog-system-v1 .cc-btn:hover,body.hog-system-v1 .hog-sub-actions a:hover{transform:translateY(-1px)!important;box-shadow:0 10px 26px rgba(7,26,73,.12)!important;filter:none!important}
+
+/* Forms + cards */
+body.hog-system-v1 input:not([type=checkbox]):not([type=radio]),body.hog-system-v1 select,body.hog-system-v1 textarea{font-family:var(--hog-font)!important;font-size:16px!important;color:var(--hog-ink)!important;background:#fff!important;border:1px solid var(--hog-line-strong)!important;border-radius:12px!important;min-height:48px!important;box-shadow:none!important}
+body.hog-system-v1 .hog-card,body.hog-system-v1 .hog-step,body.hog-system-v1 .hog-form,body.hog-system-v1 .hog-visit,body.hog-system-v1 .review-card,body.hog-system-v1 .info-card,body.hog-system-v1 .product-info-card,body.hog-system-v1 .product-lead-card,body.hog-system-v1 .product-media-card,body.hog-system-v1 .cc-panel,body.hog-system-v1 .cc-seo-card,body.hog-system-v1 .cc-faq details,body.hog-system-v1 .policy-card{background:#fff!important;border:1px solid var(--hog-line)!important;border-radius:var(--hog-radius)!important;box-shadow:none!important}
+
+/* Financing: one clean technology-looking module, not a visual detour */
+body.home-page.hog-system-v1 #payment-options{background:var(--hog-navy)!important;color:#fff!important;border:0!important}
+body.home-page.hog-system-v1 #payment-options h2,body.home-page.hog-system-v1 #payment-options p{color:#fff!important}
+body.home-page.hog-system-v1 .payment-options-inner{gap:24px!important}
+body.home-page.hog-system-v1 .payment-options-actions{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}
+body.home-page.hog-system-v1 .payment-option-button{min-height:74px!important;border-radius:14px!important;background:#fff!important;border:1px solid rgba(255,255,255,.35)!important}
+body.home-page.hog-system-v1 .payment-options-terms{color:rgba(255,255,255,.8)!important}
+
+/* Reviews */
+body.home-page.hog-system-v1 #reviews .reviews-track{gap:14px!important}
+body.home-page.hog-system-v1 #reviews .review-card{padding:20px!important}
+body.home-page.hog-system-v1 #reviews .review-card h3{font-family:var(--hog-font)!important;font-size:1rem!important}
+body.home-page.hog-system-v1 #reviews .review-card p{color:var(--hog-muted)!important;font-size:.88rem!important;line-height:1.65!important}
+
+/* ===== Service pages ===== */
+body.hog-system-v1 .hog-subpage{background:var(--hog-bg)!important}
+body.hog-system-v1 .hog-subpage .container{width:min(var(--hog-max),calc(100% - 40px))!important}
+body.hog-system-v1 .hog-sub-hero{padding:clamp(54px,7vw,92px) 0!important;background:linear-gradient(135deg,#06183f 0%,#0b2a68 72%,#123a83 100%)!important;color:#fff!important;border-bottom:2px solid var(--hog-gold)!important}
+body.hog-system-v1 .hog-sub-hero h1{color:#fff!important;font-size:clamp(2.6rem,6vw,5.4rem)!important;line-height:.96!important;max-width:15ch!important;margin:.35rem 0 1rem!important}
+body.hog-system-v1 .hog-sub-hero p{color:rgba(255,255,255,.82)!important;max-width:720px!important}
+body.hog-system-v1 .hog-sub-trust{border-top:1px solid rgba(255,255,255,.18)!important;color:rgba(255,255,255,.72)!important}
+body.hog-system-v1 .hog-sub-trust strong{color:#fff!important}
+body.hog-system-v1 .hog-sub-body{padding:clamp(42px,6vw,72px) 0!important}
+body.hog-system-v1 .hog-section{padding-bottom:clamp(40px,5vw,64px)!important}
+body.hog-system-v1 .hog-section h2{font-size:clamp(2rem,4vw,3.4rem)!important;line-height:1.02!important}
+body.hog-system-v1 .hog-card-icon{background:var(--hog-navy)!important;border:1px solid rgba(199,150,56,.35)!important}
+body.hog-system-v1 .hog-step::before{background:var(--hog-navy)!important;color:var(--hog-gold-soft)!important}
+body.hog-system-v1 .hog-band{background:var(--hog-navy)!important;border:1px solid rgba(199,150,56,.28)!important;border-radius:var(--hog-radius)!important}
+body.hog-system-v1 .hog-band h1,body.hog-system-v1 .hog-band h2,body.hog-system-v1 .hog-band h3{color:#fff!important;-webkit-text-fill-color:#fff!important}
+body.hog-system-v1 .hog-band p,body.hog-system-v1 .hog-band li{color:#e6edf8!important}
+body.hog-system-v1 .hog-kicker,body.hog-system-v1 .hog-consent a,body.hog-system-v1 .hog-visit a{color:#9b7428!important}
+body.hog-system-v1 .hog-faq details{padding:1rem 1.15rem!important}
+
+/* ===== Monaci builder ===== */
+body.hog-system-v1 .cc-page{background:var(--hog-bg)!important;color:var(--hog-ink)!important}
+body.hog-system-v1 .cc-hero{padding:clamp(50px,6vw,78px) 0!important;background:linear-gradient(135deg,#06183f,#0b2a68 70%,#123a83)!important;color:#fff!important;border-bottom:2px solid var(--hog-gold)!important}
+body.hog-system-v1 .cc-hero-grid{gap:34px!important}
+body.hog-system-v1 .cc-hero h1{color:#fff!important;font-size:clamp(2.8rem,5.5vw,5.6rem)!important;line-height:.94!important;max-width:12ch!important}
+body.hog-system-v1 .cc-hero p{color:rgba(255,255,255,.82)!important}
+body.hog-system-v1 .cc-hero-visual{padding:8px!important;background:rgba(255,255,255,.08)!important;border:1px solid rgba(228,199,125,.32)!important;border-radius:var(--hog-radius)!important}
+body.hog-system-v1 .cc-hero-video{width:100%!important;height:clamp(330px,46vw,540px)!important;max-height:540px!important;aspect-ratio:auto!important;object-fit:cover!important;border-radius:14px!important;background:#05070a!important}
+body.hog-system-v1 .cc-builder-wrap{padding:clamp(34px,5vw,60px) 0!important}
+body.hog-system-v1 .cc-panel{padding:clamp(16px,2vw,24px)!important}
+body.hog-system-v1 .cc-segment button,body.hog-system-v1 .cc-chips button{border-radius:10px!important;border:1px solid var(--hog-line-strong)!important;background:#fff!important;color:var(--hog-ink)!important;min-height:44px!important}
+body.hog-system-v1 .cc-segment button.is-active,body.hog-system-v1 .cc-chips button.is-active{background:var(--hog-navy)!important;color:#fff!important;border-color:var(--hog-navy)!important}
+body.hog-system-v1 .cc-product-image{background:#f2f4f8!important;border:1px solid var(--hog-line)!important;border-radius:14px!important}
+body.hog-system-v1 .cc-price-box{background:var(--hog-navy)!important;border-radius:14px!important}
+body.hog-system-v1 .cc-btn.cc-buy{background:var(--hog-gold)!important;color:#08111f!important;border-color:var(--hog-gold)!important}
+body.hog-system-v1 .cc-faq{padding:36px 0 58px!important}
+body.hog-system-v1 .cc-faq h2{font-size:clamp(2rem,4vw,3.2rem)!important}
+
+/* ===== Product pages ===== */
+body.product-page.hog-system-v1{background:var(--hog-bg)!important}
+body.product-page.hog-system-v1 .product-detail-shell{width:min(var(--hog-max),calc(100% - 40px))!important;padding:36px 0 72px!important}
+body.product-page.hog-system-v1 .product-back{color:#8a682b!important;text-decoration:none!important}
+body.product-page.hog-system-v1 .product-detail-grid{gap:24px!important}
+body.product-page.hog-system-v1 .product-info-card{padding:clamp(20px,3vw,32px)!important}
+body.product-page.hog-system-v1 .product-info-card h1{font-family:var(--hog-display)!important;color:var(--hog-ink)!important;font-size:clamp(2.2rem,5vw,4rem)!important;line-height:1!important}
+body.product-page.hog-system-v1 .product-description{color:var(--hog-muted)!important}
+body.product-page.hog-system-v1 .product-media-card img,body.product-page.hog-system-v1 .product-media-card video{background:#080b12!important}
+body.product-page.hog-system-v1 .product-lead-card{padding:clamp(18px,3vw,26px)!important}
+
+/* ===== Policy / transactional pages ===== */
+body.hog-system-v1 .policy-wrap{max-width:960px!important;padding:48px 20px 78px!important}
+body.hog-system-v1 .policy-card{padding:clamp(22px,4vw,40px)!important}
+body.hog-system-v1 .policy-wrap h1{font-family:var(--hog-display)!important;color:var(--hog-ink)!important}
+body.hog-system-v1 .policy-wrap p,body.hog-system-v1 .policy-wrap li{color:var(--hog-muted)!important}
+
+/* ===== Unified footer ===== */
+.hog-global-footer{background:#061332;color:#fff;border-top:2px solid var(--hog-gold);padding:42px 0 28px}
+.hog-global-footer-inner{width:min(var(--hog-max),calc(100% - 40px));margin:auto;display:grid;grid-template-columns:1.35fr .9fr .9fr;gap:32px}
+.hog-global-footer h2,.hog-global-footer h3{font-family:var(--hog-font)!important;color:#fff!important;margin:0 0 10px!important}
+.hog-global-footer h2{font-size:1rem!important;letter-spacing:.08em!important;text-transform:uppercase!important}
+.hog-global-footer h3{font-size:.72rem!important;letter-spacing:.12em!important;text-transform:uppercase!important;color:var(--hog-gold-soft)!important}
+.hog-global-footer p,.hog-global-footer a{color:rgba(255,255,255,.76)!important;font-size:.82rem!important;line-height:1.65!important}
+.hog-global-footer a{text-decoration:none!important}.hog-global-footer a:hover{color:#fff!important}
+.hog-global-footer-links{display:grid;grid-template-columns:1fr 1fr;gap:7px 14px}
+.hog-global-footer-bottom{width:min(var(--hog-max),calc(100% - 40px));margin:28px auto 0;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:rgba(255,255,255,.56);font-size:.72rem}
+body.hog-system-v1 .sitewide-privacy-disclosure{background:#050e24!important;border:0!important;color:rgba(255,255,255,.62)!important}
+body.hog-system-v1 .sitewide-privacy-disclosure a{color:var(--hog-gold-soft)!important}
+
+/* ===== Mobile-first rules ===== */
+@media(max-width:980px){
+  .hog-global-nav.site-nav{display:none!important}
+  .hog-global-menu{display:block}
+  .hog-global-inner{width:min(100% - 28px,var(--hog-max));gap:10px}
+  .hog-global-actions{margin-left:auto}
+  body.home-page.hog-system-v1 .catalog-product-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  body.hog-system-v1 .cc-hero-grid{grid-template-columns:1fr!important}
+  body.hog-system-v1 .cc-hero-visual{display:block!important;max-width:520px!important;margin:0 auto!important}
+}
+@media(max-width:760px){
+  body.hog-system-v1 .container,body.hog-system-v1 .hog-subpage .container{width:calc(100% - 28px)!important}
+  html{scroll-padding-top:68px}
+  .hog-global-header.site-header{min-height:58px!important}
+  .hog-global-inner{min-height:58px!important}
+  .hog-global-brand img{width:42px;height:42px;border-radius:10px}
+  .hog-global-brand-copy strong{font-size:.76rem}.hog-global-brand-copy small{font-size:.53rem;margin-top:4px}
+  .hog-global-call{min-height:40px;padding:0 11px;font-size:.72rem}
+  .hog-global-menu summary{width:40px;height:40px;border-radius:10px}
+  body.hog-system-v1 .hog-ldin{min-height:39px!important;padding:4px 10px!important;display:grid!important;grid-template-columns:minmax(0,1.25fr) .72fr .85fr!important;gap:6px!important;font-size:.62rem!important}
+  body.hog-system-v1 .hog-ldtitle{font-size:.59rem!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+  body.hog-system-v1 .hog-lddeal{min-height:29px!important;padding:0 7px!important;font-size:.65rem!important}
+  body.hog-system-v1 .hog-ldsavings,body.hog-system-v1 .hog-ldends{display:none!important}
+  body.hog-system-v1 .hog-ldin>a{min-height:29px!important;padding:0 7px!important;font-size:.62rem!important;border-radius:8px!important}
+  body.home-page.hog-system-v1 .metals-ticker{height:36px!important;min-height:36px!important}
+  body.home-page.hog-system-v1 .metals-ticker-inner,body.home-page.hog-system-v1 .metals-prices,body.home-page.hog-system-v1 .metal-chip{height:36px!important;min-height:36px!important}
+  body.home-page.hog-system-v1 .metal-chip{font-size:9px!important}body.home-page.hog-system-v1 .metal-chip strong{font-size:10px!important}
+  body.home-page.hog-system-v1 .future-mobile-hero{height:clamp(390px,58dvh,520px)!important;min-height:390px!important}
+  body.home-page.hog-system-v1 .future-mobile-media img,body.home-page.hog-system-v1 .future-mobile-media video{object-position:62% 50%!important}
+  body.home-page.hog-system-v1 .future-mobile-content{left:18px!important;right:18px!important;bottom:18px!important;max-width:none!important}
+  body.home-page.hog-system-v1 .future-mobile-actions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}
+  body.home-page.hog-system-v1 .future-mobile-actions a{min-width:0!important;min-height:46px!important;padding:0 10px!important;font-size:.76rem!important}
+  body.home-page.hog-system-v1 .trust-band-inner{grid-template-columns:1fr 1fr!important;min-height:42px!important}
+  body.home-page.hog-system-v1 .trust-band span{font-size:.58rem!important}
+  body.home-page.hog-system-v1 .trust-band span:nth-child(3),body.home-page.hog-system-v1 .trust-band span:nth-child(4){display:none!important}
+  body.home-page.hog-system-v1 #featured-products,body.home-page.hog-system-v1 #build-your-ideas,body.home-page.hog-system-v1 #reviews,body.home-page.hog-system-v1 #payment-options,body.home-page.hog-system-v1 .quick-services-section,body.home-page.hog-system-v1 #sell-gold,body.home-page.hog-system-v1 #visit{padding:36px 0!important}
+  body.home-page.hog-system-v1 .catalog-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+  body.home-page.hog-system-v1 .catalog-product-copy{padding:11px!important}
+  body.home-page.hog-system-v1 .catalog-product-copy h3{font-size:.82rem!important}
+  body.home-page.hog-system-v1 .catalog-product-copy p{display:none!important}
+  body.home-page.hog-system-v1 .catalog-product-footer{font-size:.64rem!important}
+  body.home-page.hog-system-v1 .payment-options-actions{grid-template-columns:1fr!important}
+  body.home-page.hog-system-v1 .payment-option-button{min-height:60px!important}
+  body.home-page.hog-system-v1 #reviews .reviews-track{grid-template-columns:1fr!important}
+  body.hog-system-v1 .hog-sub-hero{padding:46px 0 40px!important}
+  body.hog-system-v1 .hog-sub-hero h1{font-size:clamp(2.35rem,11vw,3.5rem)!important}
+  body.hog-system-v1 .hog-sub-trust{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important}
+  body.hog-system-v1 .hog-grid,body.hog-system-v1 .hog-steps{grid-template-columns:1fr!important}
+  body.hog-system-v1 .cc-hero{padding:42px 0 34px!important}
+  body.hog-system-v1 .cc-hero h1{font-size:clamp(2.4rem,11vw,3.5rem)!important}
+  body.hog-system-v1 .cc-hero-stats{grid-template-columns:1fr 1fr!important}
+  body.hog-system-v1 .cc-hero-video{height:auto!important;aspect-ratio:4/5!important;max-height:none!important}
+  body.hog-system-v1 .cc-builder{grid-template-columns:1fr!important}
+  body.hog-system-v1 .cc-result{grid-template-columns:1fr!important}
+  body.product-page.hog-system-v1 .product-detail-shell{width:calc(100% - 28px)!important;padding:24px 0 52px!important}
+  body.product-page.hog-system-v1 .product-detail-grid{grid-template-columns:1fr!important;gap:14px!important}
+  body.product-page.hog-system-v1 .product-lead-card form{grid-template-columns:1fr!important}
+  body.product-page.hog-system-v1 .product-lead-card .wide{grid-column:auto!important}
+  .hog-global-footer-inner{width:calc(100% - 28px);grid-template-columns:1fr;gap:22px}
+  .hog-global-footer-bottom{width:calc(100% - 28px)}
+}
+@media(max-width:350px){
+  .hog-global-brand-copy{display:none}
+  body.home-page.hog-system-v1 .catalog-product-grid{grid-template-columns:1fr!important}
+  body.home-page.hog-system-v1 .future-mobile-actions{grid-template-columns:1fr!important}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}body.hog-system-v1 *{animation:none!important;transition:none!important}}
+
+
+/* ===== JS-enhanced commerce components, unified with v9 system ===== */
+body.home-page.hog-system-v1 .custom-order-contact{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:18px;border:1px solid var(--hog-line);border-radius:var(--hog-radius);background:#fff;margin:14px 0}
+body.home-page.hog-system-v1 .custom-order-contact h3{grid-column:1/-1;margin:0;font-family:var(--hog-font)!important;color:var(--hog-ink)!important}
+body.home-page.hog-system-v1 .custom-order-contact label span{display:block;margin-bottom:5px;font-size:.76rem;font-weight:850;color:var(--hog-ink)!important}
+body.home-page.hog-system-v1 .custom-order-consent{grid-column:1/-1;display:flex;align-items:flex-start;gap:8px;padding:10px 12px;border:1px solid var(--hog-line);border-radius:12px;background:#f7f9fc;color:var(--hog-muted)!important;font-size:.76rem;line-height:1.45}
+body.home-page.hog-system-v1 .custom-order-consent input{width:18px;height:18px;min-height:0!important;margin-top:2px;flex:0 0 auto;accent-color:var(--hog-navy)}
+body.home-page.hog-system-v1 .custom-order-submit-row,body.home-page.hog-system-v1 .custom-order-status,body.home-page.hog-system-v1 .custom-order-note{grid-column:1/-1}
+body.home-page.hog-system-v1 .custom-order-submit-row{display:flex;flex-wrap:wrap;gap:8px}
+body.home-page.hog-system-v1 .custom-order-note{margin:0;color:var(--hog-muted);font-size:.74rem;line-height:1.45}
+body.home-page.hog-system-v1 .custom-contact-button{background:var(--hog-gold)!important;border-color:var(--hog-gold)!important;color:#07101f!important}
+body.home-page.hog-system-v1 #build-your-ideas .custom-builder.hog-custom-desktop-layout{display:grid!important;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr)!important;gap:18px!important;align-items:start!important}
+body.home-page.hog-system-v1 .hog-custom-left,body.home-page.hog-system-v1 .hog-custom-right{display:grid;gap:12px;min-width:0}
+
+/* Catalog search / availability tools */
+body.home-page.hog-system-v1 .hog-shop-tools{margin:0 0 18px;padding:12px;border:1px solid var(--hog-line);border-radius:14px;background:#f8f9fc}
+body.home-page.hog-system-v1 .hog-shop-tools-top{display:grid;grid-template-columns:minmax(200px,1fr) auto;gap:10px;align-items:center}
+body.home-page.hog-system-v1 .hog-search-wrap{position:relative}
+body.home-page.hog-system-v1 .hog-search-wrap input{width:100%;padding-right:44px!important}
+body.home-page.hog-system-v1 .hog-search-wrap b{position:absolute;right:15px;top:50%;transform:translateY(-50%);color:#8b6a2d}
+body.home-page.hog-system-v1 .hog-quick-filters{display:flex;flex-wrap:wrap;gap:6px}
+body.home-page.hog-system-v1 .hog-quick-filter{min-height:40px;padding:0 12px;border:1px solid var(--hog-line);border-radius:9px;background:#fff;color:var(--hog-ink);font:inherit;font-size:.72rem;font-weight:850;cursor:pointer}
+body.home-page.hog-system-v1 .hog-quick-filter.is-active{background:var(--hog-navy);border-color:var(--hog-navy);color:#fff}
+body.home-page.hog-system-v1 .hog-shop-tools-meta{display:flex;justify-content:space-between;gap:12px;margin-top:8px;color:var(--hog-muted);font-size:.7rem}
+body.home-page.hog-system-v1 .hog-product-card-badges{position:absolute;left:8px;top:8px;z-index:5;display:flex;gap:4px;flex-wrap:wrap;pointer-events:none}
+body.home-page.hog-system-v1 .hog-product-badge{padding:4px 7px;border-radius:7px;background:rgba(255,255,255,.94);border:1px solid rgba(7,26,73,.10);font-size:.52rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:var(--hog-ink);box-shadow:0 4px 14px rgba(0,0,0,.08)}
+body.home-page.hog-system-v1 .hog-product-badge.gold{background:var(--hog-gold);color:#07101f;border-color:var(--hog-gold)}
+body.home-page.hog-system-v1 .hog-card-inquiry-row{display:grid;grid-template-columns:1fr;gap:6px;margin-top:9px}
+body.home-page.hog-system-v1 .hog-card-inquiry-row a,body.home-page.hog-system-v1 .hog-card-inquiry-row button{min-height:36px;border-radius:8px;border:1px solid var(--hog-line);background:#fff;color:var(--hog-navy);font:inherit;font-size:.62rem;font-weight:850;display:flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer}
+
+/* Product detail modal */
+body.hog-system-v1 .hog-product-modal{position:fixed;inset:0;z-index:10020;display:none}
+body.hog-system-v1 .hog-product-modal.is-open{display:block}
+body.hog-system-v1 .hog-product-modal-overlay{position:absolute;inset:0;background:rgba(3,8,20,.78);backdrop-filter:blur(6px)}
+body.hog-system-v1 .hog-product-modal-card{position:relative;z-index:2;width:min(980px,calc(100% - 28px));max-height:calc(100dvh - 28px);overflow:auto;margin:14px auto;background:#fff;border:1px solid var(--hog-line);border-radius:20px;box-shadow:0 28px 90px rgba(0,0,0,.28)}
+body.hog-system-v1 .hog-product-modal-close{position:absolute;right:12px;top:12px;z-index:4;width:42px;height:42px;border:1px solid var(--hog-line);border-radius:12px;background:rgba(255,255,255,.96);color:var(--hog-ink);font-size:1.35rem;cursor:pointer}
+body.hog-system-v1 .hog-product-modal-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(320px,.92fr)}
+body.hog-system-v1 .hog-product-modal-media{min-height:520px;background:#080b12;display:flex;align-items:center;justify-content:center;overflow:hidden}
+body.hog-system-v1 .hog-product-modal-media img,body.hog-system-v1 .hog-product-modal-media video{width:100%;height:100%;max-height:650px;object-fit:cover}
+body.hog-system-v1 .hog-product-modal-copy{padding:30px}
+body.hog-system-v1 .hog-product-modal-copy h2{font-size:clamp(2rem,4vw,3.2rem);line-height:1;margin:.2rem 0 .7rem}
+body.hog-system-v1 .hog-product-modal-desc{color:var(--hog-muted);line-height:1.6}
+body.hog-system-v1 .hog-product-modal-meta{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:14px 0}
+body.hog-system-v1 .hog-product-modal-meta span{padding:9px 10px;border-radius:9px;background:#f4f6fa;font-size:.72rem;font-weight:800}
+body.hog-system-v1 .hog-product-modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px}
+body.hog-system-v1 .hog-modal-finance{grid-column:1/-1}
+
+/* Native-app style bottom dock: only on phones, no extra content inserted above products. */
+.hog-mobile-dock{display:none}
+@media(max-width:760px){
+  body.home-page.hog-system-v1{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))!important}
+  .hog-mobile-dock{position:fixed;display:grid;grid-template-columns:repeat(3,1fr);left:0;right:0;bottom:0;z-index:9999;min-height:62px;padding:5px max(8px,env(safe-area-inset-left)) calc(5px + env(safe-area-inset-bottom));background:rgba(255,255,255,.95);border-top:1px solid var(--hog-line);box-shadow:0 -10px 30px rgba(7,26,73,.10);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%)}
+  .hog-mobile-dock a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:var(--hog-ink)!important;font-size:.62rem;font-weight:850;text-decoration:none;border-radius:9px}
+  .hog-mobile-dock b{font-size:1rem;line-height:1.1;color:#8b6a2d}
+  body.home-page.hog-system-v1 #build-your-ideas .custom-builder.hog-custom-desktop-layout{grid-template-columns:1fr!important}
+  body.home-page.hog-system-v1 .custom-order-contact{grid-template-columns:1fr}
+  body.home-page.hog-system-v1 .custom-order-contact h3,body.home-page.hog-system-v1 .custom-order-consent,body.home-page.hog-system-v1 .custom-order-submit-row,body.home-page.hog-system-v1 .custom-order-status,body.home-page.hog-system-v1 .custom-order-note{grid-column:auto}
+  body.home-page.hog-system-v1 .custom-order-submit-row{display:grid}
+  body.home-page.hog-system-v1 .hog-shop-tools-top{grid-template-columns:1fr}
+  body.home-page.hog-system-v1 .hog-quick-filters{overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}
+  body.home-page.hog-system-v1 .hog-card-inquiry-row{grid-template-columns:1fr}
+  body.hog-system-v1 .hog-product-modal-grid{grid-template-columns:1fr}
+  body.hog-system-v1 .hog-product-modal-media{min-height:280px;max-height:44dvh}
+  body.hog-system-v1 .hog-product-modal-copy{padding:20px}
+  body.hog-system-v1 .hog-product-modal-actions{grid-template-columns:1fr}
+  body.hog-system-v1 .hog-modal-finance{grid-column:auto}
+}
+
+/* Final chrome hardening against legacy !important rules */
+body.home-page.hog-system-v1 .hog-global-header.site-header{padding:0!important;min-height:68px!important;height:auto!important}
+body.home-page.hog-system-v1 .hog-global-header .hog-global-inner{min-height:68px!important;height:68px!important}
+body.home-page.hog-system-v1 .hog-global-header .hog-global-brand img,
+body.hog-system-v1 .hog-global-header .hog-global-brand img{width:48px!important;height:48px!important;max-width:48px!important;border-radius:12px!important;object-fit:cover!important;background:#0f0e12!important;border:1px solid rgba(199,150,56,.28)!important}
+/* Desktop metals are intentionally a slim information rail, not a section. */
+body.home-page.hog-system-v1 .metals-ticker{height:38px!important;min-height:38px!important;padding:0!important}
+body.home-page.hog-system-v1 .metals-ticker-inner{height:38px!important;min-height:38px!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:center!important}
+body.home-page.hog-system-v1 .metals-label,body.home-page.hog-system-v1 .metals-updated{display:none!important}
+body.home-page.hog-system-v1 .metals-prices{height:38px!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:0!important;width:min(620px,100%)!important;margin:0 auto!important}
+body.home-page.hog-system-v1 .metal-chip{height:38px!important;min-height:38px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;border:0!important;border-left:1px solid rgba(7,26,73,.10)!important;border-radius:0!important;background:transparent!important;padding:0 12px!important;font-size:.72rem!important;white-space:nowrap!important}
+body.home-page.hog-system-v1 .metal-chip:last-child{border-right:1px solid rgba(7,26,73,.10)!important}
+body.home-page.hog-system-v1 .metal-chip strong{font-size:.78rem!important;color:#9b7428!important}
+@media(max-width:760px){
+  body.home-page.hog-system-v1 .hog-global-header.site-header{min-height:58px!important;padding:0!important}
+  body.home-page.hog-system-v1 .hog-global-header .hog-global-inner{min-height:58px!important;height:58px!important}
+  body.home-page.hog-system-v1 .hog-global-header .hog-global-brand img,
+  body.hog-system-v1 .hog-global-header .hog-global-brand img{width:42px!important;height:42px!important;max-width:42px!important;border-radius:10px!important}
+  body.home-page.hog-system-v1 .metals-ticker,body.home-page.hog-system-v1 .metals-ticker-inner,body.home-page.hog-system-v1 .metals-prices,body.home-page.hog-system-v1 .metal-chip{height:34px!important;min-height:34px!important}
+  body.home-page.hog-system-v1 .metal-chip{padding:0 4px!important;font-size:9px!important;gap:3px!important}
+  body.home-page.hog-system-v1 .metal-chip strong{font-size:10px!important}
+}
+
+/* ============================================================
+   AUDIT FIXES (2026-09-06) — appended last so they win.
+   ============================================================ */
+
+/* F-09: the promo code is how the sale is redeemed, so it must be
+   visible on phones. Only the redundant "ends" pill stays hidden. */
+@media (max-width:760px){
+  body.hog-system-v1 .hog-ldsavings{display:inline-flex!important;min-height:26px!important;
+    padding:0 8px!important;font-size:.58rem!important;letter-spacing:.02em!important}
+  body.hog-system-v1 .hog-ldin{grid-template-columns:auto auto auto!important;
+    justify-content:center!important;grid-auto-rows:auto!important;row-gap:4px!important;
+    column-gap:6px!important}
+  body.hog-system-v1 .hog-ldtitle{grid-column:1/-1!important;text-align:center!important}
+}
+
+/* F-17: "Hablamos Espanol" and "Custom Craftsmanship" were deleted on mobile.
+   Show all four across two rows instead. */
+@media (max-width:760px){
+  body.home-page.hog-system-v1 .trust-band-inner{grid-template-columns:1fr 1fr!important;
+    grid-template-rows:auto auto!important;min-height:0!important;padding:4px 0!important}
+  body.home-page.hog-system-v1 .trust-band span:nth-child(3),
+  body.home-page.hog-system-v1 .trust-band span:nth-child(4){display:flex!important;
+    align-items:center!important;justify-content:center!important;min-height:21px!important}
+}
+
+/* F-05: the H1 is the page headline at every width in v9 (no desktop hero). */
+body.home-page.hog-system-v1 .hog-seo-h1-wrap{position:static!important;width:min(1140px,92vw)!important;
+  height:auto!important;margin:0 auto!important;padding:0!important;overflow:visible!important;
+  clip:auto!important;white-space:normal!important}
+
+/* F-04: product cards link through to their product pages. */
+body.hog-system-v1 .catalog-product-title-link{color:inherit!important;text-decoration:none!important}
+body.hog-system-v1 .catalog-product-title-link:hover,
+body.hog-system-v1 .catalog-product-title-link:focus-visible{text-decoration:underline!important;
+  text-underline-offset:.15em!important}
+body.hog-system-v1 .catalog-product-footer .catalog-card-call{margin-left:auto!important;
+  padding:.3rem .7rem!important;border:1px solid currentColor!important;border-radius:999px!important;
+  min-height:32px!important;display:inline-flex!important;align-items:center!important;
+  text-decoration:none!important}
+
+
+/* ============================================================
+   TYPE SYSTEM — 2026-09-08
+   The site asked for Inter but never downloaded it, so every
+   visitor was seeing their OS fallback. It is now loaded at the
+   top of this file, along with Bodoni Moda for display.
+   ============================================================ */
+
+body.hog-system-v1{
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+  font-feature-settings:"kern" 1,"liga" 1;
+}
+body.hog-system-v1 h1,body.hog-system-v1 h2{
+  font-family:var(--hog-display);
+}
+/* h3 stays on Inter: a Didone at ~1rem in a weight we did not load
+   would be synthesised into faux-bold, which looks worse than plain. */
+body.hog-system-v1 h3{font-family:var(--hog-font)}
+
+/* Impact was set on the catalog headline in style.css. It is a poster
+   face and the one genuinely downmarket thing on a page selling 14K gold. */
+body.home-page.hog-system-v1 .fire-stock-heading,
+body.hog-system-v1 .fire-stock-heading{
+  font-family:var(--hog-display)!important;
+  font-weight:900!important;
+  letter-spacing:.012em!important;
+  -webkit-text-fill-color:currentColor!important;
+  background:none!important;
+}
+
+/* Numerals line up in the calculator, the spot ticker and the Monaci specs. */
+body.hog-system-v1 .metals-prices,
+body.hog-system-v1 .gold-calculator-result,
+body.hog-system-v1 .gold-calculator-rate,
+body.hog-system-v1 .cc-spec,
+body.hog-system-v1 #gold-calc-result,
+body.hog-system-v1 #gold-calc-rate{font-variant-numeric:tabular-nums}
+
+/* ============================================================
+   VIP LIST POPUP — evergreen, not tied to any campaign
+   ============================================================ */
+.hog-vip{position:fixed;inset:0;z-index:100001;display:none;align-items:center;justify-content:center;padding:16px}
+.hog-vip.is-open{display:flex}
+.hog-vip-scrim{position:absolute;inset:0;background:rgba(6,12,26,.72);backdrop-filter:blur(4px)}
+.hog-vip-card{position:relative;z-index:1;width:min(100%,440px);max-height:calc(100dvh - 32px);overflow-y:auto;
+  background:linear-gradient(165deg,#0A2E73 0%,#071a49 58%,#050d24 100%);
+  border:1px solid rgba(199,150,56,.5);border-radius:18px;padding:26px 24px 22px;
+  box-shadow:0 30px 70px rgba(0,0,0,.55);color:#F6F3EC;font-family:var(--hog-font)}
+.hog-vip-card:before{content:"";position:absolute;inset:0 0 auto;height:3px;border-radius:18px 18px 0 0;
+  background:linear-gradient(90deg,#C79638,#e4c77d 50%,#C79638)}
+.hog-vip-x{position:absolute;top:8px;right:8px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+  background:none;border:0;color:#b9b3a6;font-size:26px;line-height:1;cursor:pointer;border-radius:10px}
+.hog-vip-x:hover{color:#fff}
+.hog-vip-eyebrow{margin:0 0 6px;color:#C79638;font-size:.68rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase}
+.hog-vip-card h2{margin:0 0 8px;font-family:var(--hog-display);font-size:clamp(1.6rem,5.4vw,2rem);line-height:1.1;color:#fff!important}
+.hog-vip-copy{margin:0 0 14px;font-size:.9rem;line-height:1.5;color:rgba(246,243,236,.86)}
+.hog-vip-form{display:grid;gap:9px}
+.hog-vip-form label{display:grid;gap:4px;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#e8dfcb}
+.hog-vip-form input[type=text],.hog-vip-form input[type=email],.hog-vip-form input[type=tel]{
+  width:100%;min-height:48px;padding:.6rem .8rem;border-radius:11px;border:1px solid rgba(199,150,56,.45);
+  background:#fffdf9;color:#1b1710;font-size:16px;font-family:var(--hog-font)}
+.hog-vip-form label.hog-vip-consent,.hog-vip-consent{display:flex;align-items:flex-start;gap:.55rem;margin:.1rem 0;padding:.55rem .65rem;
+  border:1px solid rgba(255,255,255,.16);border-radius:11px;background:rgba(255,255,255,.06);
+  font-size:.74rem;line-height:1.5;font-weight:400!important;letter-spacing:0!important;text-transform:none!important;color:#ded5c2}
+.hog-vip-consent input[type=checkbox]{width:20px;height:20px;min-height:0;flex:0 0 auto;margin:.05rem 0 0;accent-color:#C79638}
+.hog-vip-consent a{color:#e4c77d}
+.hog-vip-submit{width:100%;min-height:52px;margin-top:.2rem;border:0;border-radius:12px;cursor:pointer;
+  background:linear-gradient(180deg,#e4c77d,#C79638);color:#1b1408;font-family:var(--hog-font);font-size:1rem;font-weight:900}
+.hog-vip-submit:hover{filter:brightness(1.05)}
+.hog-vip-submit[disabled]{opacity:.75;cursor:default}
+.hog-vip-status{margin:.5rem 0 0;min-height:1.1rem;font-size:.8rem;line-height:1.45;color:#f0e6d2}
+.hog-vip-status.is-error{color:#ffd6d6}
+.hog-vip-status.is-success{color:#ffeeb4;font-weight:800}
+.hog-vip-fine{margin:.7rem 0 0;font-size:.66rem;line-height:1.5;color:rgba(246,243,236,.5)}
+.hog-vip-no{display:block;width:100%;margin:.5rem 0 0;background:none;border:0;color:rgba(246,243,236,.5);
+  font-family:var(--hog-font);font-size:.72rem;text-decoration:underline;cursor:pointer;padding:8px}
+.hog-vip-hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important}
+@media (max-width:400px){.hog-vip-card{padding:22px 18px 18px}}
+@media (prefers-reduced-motion:no-preference){
+  .hog-vip.is-open .hog-vip-card{animation:hogVipIn .28s cubic-bezier(.2,.8,.3,1)}
+  @keyframes hogVipIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+}

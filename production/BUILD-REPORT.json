@@ -1,0 +1,11 @@
+{
+  "products_generated": 52,
+  "media_duplicate_files_removed": 40,
+  "media_bytes_saved": 73065127,
+  "media_mb_saved": 69.68,
+  "lead_endpoint": "/api/leads",
+  "reviews_endpoint": "/api/reviews",
+  "google_reviews_snapshot_count": 713,
+  "google_reviews_snapshot_rating": 4.9,
+  "ai_sdk_pinned": "7.0.84"
+}

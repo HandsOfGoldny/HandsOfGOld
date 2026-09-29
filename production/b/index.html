@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#080B12">
+<title>Send Bitcoin · Hands of Gold</title>
+<link rel="stylesheet" href="/b/bracelet.css">
+<script src="/b/qr.js"></script>
+</head>
+<body>
+<main class="wrap">
+  <div class="brand"><a href="https://www.handsofgoldny.com/">Hands of Gold</a></div>
+
+  <div id="loading" class="spinner" aria-label="Loading"></div>
+
+  <!-- Active bracelet -->
+  <section id="active" class="card hidden">
+    <p class="eyebrow">Bitcoin bracelet</p>
+    <h1 id="title">Send Bitcoin</h1>
+    <p class="sub" id="subtitle">Scan or tap below to send BTC.</p>
+
+    <div class="qr" id="qr"></div>
+
+    <p class="label">Bitcoin address <span class="tag" id="addrType"></span></p>
+    <div class="addr" id="addr"></div>
+    <div class="btns">
+      <button class="btn btn-gold" id="copyAddr" type="button">Copy address</button>
+      <a class="btn btn-ghost" id="openWallet" href="#">Open wallet</a>
+    </div>
+
+    <div class="section hidden" id="lnSection">
+      <p class="label">Lightning ⚡ <span class="tag">instant, low fee</span></p>
+      <div class="addr" id="ln"></div>
+      <div class="btns">
+        <button class="btn btn-gold" id="copyLn" type="button">Copy Lightning</button>
+        <a class="btn btn-ghost" id="openLn" href="#">Open wallet</a>
+      </div>
+    </div>
+
+    <div class="section stat hidden" id="statSection">
+      <p class="label" id="statLabel">Balance</p>
+      <div class="big" id="statBtc">—</div>
+      <div class="small" id="statUsd"></div>
+    </div>
+
+    <p class="note">Send <b>Bitcoin (BTC)</b> on the <b>Bitcoin network</b> only. Other coins or networks will be lost.</p>
+  </section>
+
+  <!-- Not yet activated -->
+  <section id="unclaimed" class="card hidden">
+    <p class="eyebrow">Welcome</p>
+    <h1>Your bracelet is ready</h1>
+    <p class="sub">Activate it with the owner code from the card in your box. You'll paste in your own Bitcoin receiving address — from Cash App, Coinbase, Strike, or any wallet.</p>
+    <a class="btn btn-gold btn-block" id="activateLink" href="#">Activate my bracelet</a>
+    <p class="note">Hands of Gold never holds your bitcoin or your keys.</p>
+  </section>
+
+  <!-- Error -->
+  <section id="error" class="card hidden">
+    <h1>Hmm.</h1>
+    <p class="sub" id="errorMsg">We couldn't find this bracelet.</p>
+    <a class="btn btn-ghost btn-block" href="https://www.handsofgoldny.com/">Visit Hands of Gold</a>
+  </section>
+
+  <footer class="foot">
+    <div>Bracelet by <a href="https://www.handsofgoldny.com/">Hands of Gold</a> · Copiague, NY · Since 1983</div>
+    <a class="manage hidden" id="manageLink" href="#">Owner? Manage this bracelet</a>
+  </footer>
+</main>
+<div class="toast" id="toast">Copied</div>
+
+<script>
+(function () {
+  var API = '/api/bracelet';
+  var $ = function (id) { return document.getElementById(id); };
+  var params = new URLSearchParams(location.search);
+  var id = (params.get('i') || params.get('id') || '').trim().toUpperCase();
+
+  function show(el) { $('loading').classList.add('hidden'); $(el).classList.remove('hidden'); }
+  function fail(msg) { $('errorMsg').textContent = msg; show('error'); }
+  function toast(t) { var el = $('toast'); el.textContent = t; el.classList.add('show'); setTimeout(function () { el.classList.remove('show'); }, 1400); }
+  function copy(text) {
+    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject())
+      .then(function () { toast('Copied'); })
+      .catch(function () {
+        var t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select();
+        try { document.execCommand('copy'); toast('Copied'); } catch (e) { toast('Press and hold to copy'); }
+        t.remove();
+      });
+  }
+  function chunks(addr) {
+    var out = '';
+    for (var i = 0; i < addr.length; i += 4) out += '<span class="chunk">' + addr.slice(i, i + 4) + '</span> ';
+    return out;
+  }
+  function addrType(a) {
+    if (/^bc1p/i.test(a)) return 'Taproot';
+    if (/^bc1q/i.test(a)) return 'SegWit';
+    if (/^3/.test(a)) return 'Nested SegWit';
+    return 'Legacy';
+  }
+  function fmtBtc(sats) {
+    var s = (sats / 1e8).toFixed(8).replace(/0+$/, '').replace(/\.$/, '');
+    return s + ' BTC';
+  }
+
+  if (!/^[23456789ABCDEFGHJKMNPQRSTVWXYZ]{8}$/.test(id)) return fail('This bracelet link looks incomplete. Try tapping again.');
+
+  var editUrl = '/b/edit.html?i=' + encodeURIComponent(id);
+  $('manageLink').href = editUrl; $('activateLink').href = editUrl;
+
+  fetch(API + '?i=' + encodeURIComponent(id), { cache: 'no-store' })
+    .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+    .then(function (res) {
+      if (!res.ok) return fail(res.j.error || 'Something went wrong.');
+      var p = res.j;
+      if (p.status === 'unclaimed') return show('unclaimed');
+      if (p.status !== 'active' || !p.address) return fail('This bracelet is not active.');
+      render(p);
+    })
+    .catch(function () { fail('Couldn\'t load this bracelet. Check your connection and tap again.'); });
+
+  function render(p) {
+    var a = p.address;
+    if (p.name) {
+      $('title').textContent = p.name;
+      $('subtitle').textContent = 'Send Bitcoin to ' + p.name + '.';
+      document.title = p.name + ' · Bitcoin · Hands of Gold';
+    }
+    $('qr').innerHTML = window.HOGQR.svg('bitcoin:' + a, { level: 'M', border: 2 });
+    $('addr').innerHTML = chunks(a);
+    $('addrType').textContent = addrType(a);
+    $('copyAddr').onclick = function () { copy(a); };
+    $('openWallet').href = 'bitcoin:' + a;
+
+    if (p.lightning) {
+      $('ln').textContent = p.lightning;
+      $('copyLn').onclick = function () { copy(p.lightning); };
+      $('openLn').href = 'lightning:' + p.lightning;
+      $('lnSection').classList.remove('hidden');
+    }
+    $('manageLink').classList.remove('hidden');
+    show('active');
+    if (p.show === 'balance' || p.show === 'received') loadStat(a, p.show);
+  }
+
+  // Public blockchain data via mempool.space — read-only, no keys, no custody.
+  function loadStat(a, mode) {
+    Promise.all([
+      fetch('https://mempool.space/api/address/' + encodeURIComponent(a)).then(function (r) { if (!r.ok) throw 0; return r.json(); }),
+      fetch('https://mempool.space/api/v1/prices').then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; })
+    ]).then(function (res) {
+      var d = res[0], usd = res[1] && res[1].USD;
+      var c = d.chain_stats || {}, m = d.mempool_stats || {};
+      var sats = mode === 'received'
+        ? (c.funded_txo_sum || 0) + (m.funded_txo_sum || 0)
+        : (c.funded_txo_sum || 0) - (c.spent_txo_sum || 0) + (m.funded_txo_sum || 0) - (m.spent_txo_sum || 0);
+      $('statLabel').textContent = mode === 'received' ? 'Total received' : 'Balance';
+      $('statBtc').textContent = fmtBtc(sats);
+      $('statUsd').textContent = usd ? '≈ $' + Math.round(sats / 1e8 * usd).toLocaleString('en-US') + ' USD' : '';
+      $('statSection').classList.remove('hidden');
+    }).catch(function () { /* stat is optional — stay hidden if the lookup fails */ });
+  }
+})();
+</script>
+</body>
+</html>

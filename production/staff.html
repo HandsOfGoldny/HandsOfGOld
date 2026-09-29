@@ -1,0 +1,10 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive"><title>Staff Lead Center | Hands of Gold</title><link rel="stylesheet" href="/staff.css"></head><body>
+<header class="topbar"><div><strong>HANDS OF GOLD</strong><span>Staff Lead Center</span></div><button id="signout" class="ghost" hidden>Sign out</button></header>
+<main class="shell">
+<section id="login" class="login-card"><p class="eyebrow">PRIVATE STAFF ACCESS</p><h1>Website Lead Center</h1><p>Sign in with the store email and owner access code.</p><form id="login-form"><label>Email<input id="email" type="email" autocomplete="username" value="HandsOfGold@handsofgold.org" required></label><label>Access code<input id="access-code" type="password" autocomplete="current-password" required></label><button class="primary">Open dashboard</button></form><p id="login-message" class="message" role="status"></p></section>
+<section id="dashboard" hidden>
+<div class="hero"><div><p class="eyebrow">ABC — ALWAYS BE CLOSING SALES</p><h1>Website Leads</h1><p id="updated">Loading…</p></div><button id="refresh" class="primary">Refresh</button></div>
+<div id="stats" class="stats"></div>
+<div class="toolbar"><input id="search" type="search" placeholder="Search name, phone, email, lead ID or product"><select id="filter"><option value="">All statuses</option><option>new</option><option>contacted</option><option>qualified</option><option>appointment</option><option>won</option><option>lost</option><option>spam</option></select></div>
+<div id="error" class="error" role="alert"></div><div id="leads" class="lead-list"></div>
+</section></main><script src="/staff.js" defer></script></body></html>

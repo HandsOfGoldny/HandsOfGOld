@@ -1,0 +1,26 @@
+
+body.home-page #payment-options.hog-retail-payment{padding:0 0 28px!important;scroll-margin-top:105px}
+body.home-page #payment-options.hog-retail-payment .payment-options-inner{display:block!important;max-width:1200px;width:calc(100% - 32px);margin:auto;padding:0!important}
+body.home-page #payment-options.hog-retail-payment .payment-pane{padding:28px!important;background:#fff8e9!important;border:1px solid #c6a465;border-radius:20px!important;color:#102544!important}
+body.home-page #payment-options.hog-retail-payment .payment-options-eyebrow{display:block!important;color:#775315!important;font-size:12px!important;font-weight:800;letter-spacing:.1em;text-align:left!important}
+body.home-page #payment-options.hog-retail-payment .payment-options-title{color:#102544!important;font-size:clamp(25px,3vw,36px)!important;line-height:1.15!important;text-align:left!important;margin:8px 0 12px!important}
+body.home-page #payment-options.hog-retail-payment .payment-options-subtitle{color:#263b50!important;font-size:16px!important;line-height:1.6!important;text-align:left!important;max-width:850px;margin:0!important}
+body.home-page #payment-options.hog-retail-payment .payment-options-actions{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;margin:18px 0!important}
+body.home-page #payment-options.hog-retail-payment .payment-option-button{display:flex!important;flex-direction:column;gap:9px;min-width:0!important;min-height:100px!important;padding:16px!important;background:white!important;border:1px solid #bda675;border-radius:12px!important;text-decoration:none;color:#102544!important;white-space:normal}
+body.home-page #payment-options.hog-retail-payment .pay-btn-logo{max-width:170px!important;width:100%;height:32px!important;object-fit:contain}
+.hog-payment-label{font-size:14px;font-weight:800;text-align:center;line-height:1.4}
+.hog-payment-steps{font-size:14px;line-height:1.6;color:#263b50;margin:18px 0 0}
+.hog-payment-important{font-size:13px!important;line-height:1.6!important;color:#344252!important;max-width:900px}
+.hog-payment-shop{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0}
+.hog-payment-shop a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;box-sizing:border-box;border-radius:8px;background:#102544;color:white!important;font-weight:800;text-decoration:none;font-size:15px}
+.hog-payment-shop a:last-child{background:transparent;color:#102544!important;border:1px solid #102544}
+body.home-page #payment-options.hog-retail-payment .payment-options-terms{display:block!important;color:#344252!important;font-size:13px!important;line-height:1.6}
+body.home-page #payment-options.hog-retail-payment .payment-options-terms summary{min-height:44px;display:flex;align-items:center;cursor:pointer;text-decoration:underline}
+body.home-page #payment-options.hog-retail-payment .payment-options-disclosure{color:#344252!important;font-size:13px!important;line-height:1.6!important}
+#payment-options.hog-retail-payment a:focus-visible{outline:3px solid #1d64c7;outline-offset:4px}
+@media(max-width:640px){body.home-page #payment-options.hog-retail-payment .payment-pane{padding:22px 18px!important}body.home-page #payment-options.hog-retail-payment .payment-options-actions{grid-template-columns:1fr!important}.hog-payment-shop a{width:100%}}
+body.home-page #payment-options.hog-retail-payment .hog-payment-steps,
+body.home-page #payment-options.hog-retail-payment .hog-payment-important,
+body.home-page #payment-options.hog-retail-payment .payment-options-terms,
+body.home-page #payment-options.hog-retail-payment .payment-options-terms summary,
+body.home-page #payment-options.hog-retail-payment .payment-options-disclosure{color:#344252!important;-webkit-text-fill-color:#344252!important}

@@ -1,0 +1,5 @@
+Project: handsofgold-v18-privacy-ready-go-live
+Project ID: prj_L5BnbdLML6hkLfPXyBZR2bABA425
+Team: Hands Of Gold
+Team ID: team_LfOCVmnX75WH3lb0zBSZdG11
+Production domains: handsofgoldny.com, www.handsofgoldny.com

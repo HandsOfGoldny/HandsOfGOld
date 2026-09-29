@@ -1,0 +1,24 @@
+{
+  "id": "/",
+  "name": "Hands of Gold Jewelry and Repairs",
+  "short_name": "Hands of Gold",
+  "description": "Custom jewelry, expert repairs, and Monaci Cuban chains from a family-run Copiague jeweler since 1983.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0f0f10",
+  "theme_color": "#0f0f10",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["shopping", "lifestyle"],
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Monaci Cuban Chains", "url": "/cuban-chains.html", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Jewelry Repair", "url": "/jewelry-repair.html", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Sell Your Gold", "url": "/sell-gold.html", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

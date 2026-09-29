@@ -1,0 +1,116 @@
+/* Hands of Gold — mobile-first storefront layer, 2026-09-06 */
+:root{--hog-safe-b:env(safe-area-inset-bottom,0px)}
+.future-mobile-hero{display:none}
+@media (max-width:760px){
+  html{overflow-x:hidden;scroll-padding-top:88px;-webkit-text-size-adjust:100%}
+  body.home-page{overflow-x:hidden;background:#fff;color:#111}
+  .home-page *{box-sizing:border-box}
+  .home-page img,.home-page video{max-width:100%;height:auto}
+  .home-page .container{width:min(100% - 28px,1180px)!important;margin-inline:auto!important}
+
+  /* 1. Live metals: one premium, swipeable micro-ticker */
+  .home-page .metals-ticker{position:relative!important;top:auto!important;height:42px!important;min-height:42px!important;background:#0b0b0c!important;border:0!important;overflow:hidden!important}
+  .home-page .metals-ticker::after,.home-page .metals-label,.home-page .metals-updated{display:none!important}
+  .home-page .metals-ticker-inner{min-height:42px!important;height:42px!important;padding:0!important;display:block!important;width:100%!important;max-width:none!important}
+  .home-page .metals-prices{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:0!important;width:100%!important;height:42px!important;overflow:hidden!important}
+  .home-page .metal-chip{min-width:0!important;height:42px!important;padding:0 5px!important;border:0!important;border-right:1px solid #2b2b2e!important;border-radius:0!important;background:transparent!important;color:#eee!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:4px!important;font-size:10px!important;white-space:nowrap!important}
+  .home-page .metal-chip strong{font-size:11px!important;color:#d8b05b!important;min-width:0!important}
+
+  /* 2. Campaign strip: compact instead of a second hero */
+  .hog-ldbar{min-height:48px!important;background:#081a47!important;border-bottom:2px solid #d2ad55!important;box-shadow:none!important}
+  .hog-ldbar:before{height:3px!important}
+  .hog-ldin{min-height:45px!important;display:grid!important;grid-template-columns:1fr auto!important;align-items:center!important;gap:6px!important;padding:6px 12px!important;font-size:11px!important}
+  .hog-ldtitle{grid-column:auto!important;font-size:11px!important;white-space:nowrap!important}
+  .hog-lddeal{min-height:30px!important;padding:4px 7px!important;font-size:11px!important}
+  .hog-ldends{display:none!important}
+  .hog-ldsavings{display:inline-flex!important;white-space:nowrap;font-size:10px}  /* carries CODE LABORDAY25 */
+  .hog-ldin a{min-height:30px!important;padding:4px 7px!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:10px!important}
+
+  /* 3. Header: app-like, compact, touch-friendly */
+  .home-page .site-header{position:sticky!important;top:0!important;z-index:900!important;min-height:64px!important;height:64px!important;background:rgba(255,255,255,.92)!important;backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border-bottom:1px solid rgba(0,0,0,.07)!important}
+  .home-page .nav-wrap{min-height:64px!important;height:64px!important;padding:0!important;display:flex!important;align-items:center!important}
+  .home-page .brand-logo{width:50px!important;height:50px!important;border-radius:12px!important;object-fit:cover!important}
+  .home-page .brand-copy{display:none!important}
+  .home-page .header-phone{margin-left:auto!important;width:44px!important;height:44px!important;min-width:44px!important;padding:0!important;border-radius:50%!important;display:grid!important;place-items:center!important;background:#f7f4ec!important;border:1px solid #e7d6aa!important;font-size:0!important}
+  .home-page .header-phone:before{content:'☎';font-size:20px;color:#9b7428}
+  .home-page .header-phone-number,.home-page .header-phone-note{display:none!important}
+  .home-page .nav-toggle{width:44px!important;height:44px!important;margin-left:8px!important;border-radius:14px!important;border:1px solid #e5e5e5!important;background:#fff!important}
+  .home-page .site-nav{top:70px!important;left:14px!important;right:14px!important;max-height:calc(100dvh - 100px)!important;overflow:auto!important;border-radius:22px!important;padding:12px!important;background:rgba(255,255,255,.98)!important;box-shadow:0 24px 70px rgba(0,0,0,.2)!important}
+  .home-page .site-nav a{min-height:48px!important;display:flex!important;align-items:center!important;padding:0 14px!important;border-radius:12px!important;font-size:15px!important}
+
+  /* 4. True mobile hero */
+  .future-mobile-hero{display:block;position:relative;height:clamp(390px,58dvh,520px);min-height:390px;overflow:hidden;background:#090909;color:#fff}
+  .future-mobile-media,.future-mobile-media video,.future-mobile-media img,.future-mobile-shade{position:absolute;inset:0;width:100%;height:100%}
+  .future-mobile-media video,.future-mobile-media img{object-fit:cover;object-position:68% 50%;display:block}
+  .future-mobile-shade{background:linear-gradient(180deg,rgba(0,0,0,0) 62%,rgba(0,0,0,.10) 78%,rgba(0,0,0,.50) 100%)}
+  .future-mobile-content{position:absolute;left:20px;right:20px;bottom:20px;z-index:2}
+  .future-kicker{margin:0 0 8px;font:800 10px/1.2 system-ui,sans-serif;letter-spacing:.18em;color:#f0ce79}
+  .future-mobile-content h2{margin:0;font:700 clamp(38px,11vw,58px)/.94 Georgia,serif;letter-spacing:-.035em;text-wrap:balance}
+  .future-mobile-content>p:not(.future-kicker){margin:12px 0 18px;max-width:330px;font:500 15px/1.4 system-ui,sans-serif;color:#f3f3f3}
+  .future-mobile-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .future-mobile-actions a{min-height:48px;border-radius:15px;display:flex;align-items:center;justify-content:center;text-decoration:none;font:800 13px/1 system-ui,sans-serif}
+  .future-primary{background:#fff;color:#111}.future-secondary{background:rgba(10,10,10,.45);color:#fff;border:1px solid rgba(255,255,255,.5);backdrop-filter:blur(10px)}
+
+  /* Remove legacy top-of-page duplication */
+  /* F-05: was clipped here and at >=961px, so the H1 was invisible everywhere. */
+  .home-page .hog-seo-h1-wrap{width:min(1140px,92vw);margin:0 auto;padding:0}
+  .home-page .hog-seo-h1{font-size:clamp(23px,6.4vw,30px);line-height:1.12;padding:16px 0 6px;color:#12100c}
+  .home-page .trust-band{min-height:44px!important;padding:0!important;background:#0b0b0c!important;border:0!important}
+  .home-page .trust-band-inner{min-height:44px!important;display:grid!important;grid-template-columns:1fr 1fr!important;padding:0!important;gap:0!important}
+  .home-page .trust-band span{font-size:9px!important;letter-spacing:.08em!important;display:flex!important;align-items:center!important;justify-content:center!important}
+  .home-page .trust-band-inner{grid-template-rows:auto auto!important}  /* F-17: show all four */
+  .home-page .hero-section,.home-page .homepage-hero,.home-page .hero-brand-panel,.home-page .hog-desktop-hero{display:none!important}
+
+  /* Inventory becomes the first real content block */
+  .home-page #featured-products{padding:28px 0 24px!important;margin:0!important;background:#fff!important}
+  .home-page #featured-products .section-header{margin-bottom:18px!important}
+  .home-page .fire-stock-heading{font-size:clamp(30px,9vw,42px)!important;line-height:1!important;letter-spacing:-.035em!important;margin:4px 0 8px!important}
+  .home-page .curated-catalog-grid,.home-page .catalog-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+  .home-page .catalog-product-card{min-width:0!important;border-radius:18px!important;overflow:hidden!important;box-shadow:0 7px 22px rgba(0,0,0,.08)!important}
+  .home-page .catalog-product-card img,.home-page .catalog-product-card video{aspect-ratio:1/1!important;object-fit:cover!important;width:100%!important}
+  .home-page .catalog-product-card h3{font-size:14px!important;line-height:1.15!important}
+  .home-page .catalog-product-card p{font-size:11px!important;line-height:1.35!important}
+
+  /* Financing is useful, but no longer blocks shopping */
+  .home-page #payment-options{margin:0!important;padding:26px 0!important;border:0!important;background:#0d0d0f!important;color:#fff!important}
+  .home-page .payment-options-inner{display:block!important}
+  .home-page .payment-options-title{font-size:28px!important;line-height:1.02!important;color:#fff!important}
+  .home-page .payment-options-subtitle{font-size:13px!important;line-height:1.45!important;color:#d6d6d6!important}
+  .home-page .payment-options-actions{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important}
+  .home-page .payment-option-button{min-width:0!important;min-height:58px!important;padding:8px!important;border-radius:14px!important;background:#fff!important}
+  .home-page .payment-option-button img{max-width:90%!important;max-height:30px!important;object-fit:contain!important}
+
+  /* All remaining sections: coherent rhythm and readable type */
+  .home-page main>section:not(#featured-products):not(#payment-options){padding-top:38px!important;padding-bottom:38px!important}
+  .home-page .section-header h2,.home-page section h2{font-size:clamp(28px,8vw,38px);line-height:1.05}
+  .home-page p{overflow-wrap:anywhere}
+  .home-page input,.home-page select,.home-page textarea,.home-page button{font-size:16px!important;max-width:100%}
+  .home-page .reviews-section{padding:34px 0!important}
+  .home-page .review-proof-heading{margin-bottom:16px!important}
+  .home-page .visit-section{padding:34px 0!important}
+
+  /* Bottom dock behaves like a native app tab bar */
+  .home-page .mobile-bottom-nav,.home-page .mobile-dock{height:calc(62px + var(--hog-safe-b))!important;padding-bottom:var(--hog-safe-b)!important;background:rgba(255,255,255,.94)!important;backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border-top:1px solid rgba(0,0,0,.08)!important;box-shadow:0 -8px 28px rgba(0,0,0,.08)!important}
+  .home-page .site-footer{padding-bottom:calc(80px + var(--hog-safe-b))!important}
+
+  /* No horizontal overflow, ever */
+  .home-page main,.home-page section,.home-page header,.home-page footer{max-width:100vw!important}
+}
+@media (max-width:380px){
+  .future-mobile-content{left:16px;right:16px}.future-mobile-actions{grid-template-columns:1fr}.future-mobile-hero{min-height:410px}
+  .home-page .payment-options-actions{grid-template-columns:1fr!important}.home-page .payment-option-button{min-height:52px!important}
+}
+@media (min-width:761px){.future-mobile-hero{display:none!important}}
+@media (prefers-reduced-motion:reduce){.future-mobile-media video{display:none}.future-mobile-media{background:url('new-media/14k-gold-jewelry-showcase.jpg') center/cover no-repeat}}
+
+
+/* F-04: product cards link to their product pages. */
+.catalog-product-title-link{color:inherit;text-decoration:none}
+.catalog-product-title-link:hover,.catalog-product-title-link:focus-visible{text-decoration:underline;text-underline-offset:.15em}
+.catalog-product-footer .catalog-card-view{font-weight:700}
+.catalog-product-footer .catalog-card-call{margin-left:auto;padding:.35rem .7rem;border:1px solid currentColor;border-radius:999px;min-height:32px;display:inline-flex;align-items:center;text-decoration:none}
+@media (max-width:760px){
+  .catalog-product-footer{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem}
+  .catalog-product-footer .catalog-card-call{min-height:36px}
+  .hog-ldtitle{grid-column:1/-1}
+}
