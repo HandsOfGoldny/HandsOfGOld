@@ -133,7 +133,7 @@ export default async function handler(req, res) {
 
   const params = {
     mode: "payment",
-    success_url: `${origin}/order-confirmed.html?session_id={CHECKOUT_SESSION_ID}`,
+    success_url: `${origin}/order-confirmed.html?session_id={CHECKOUT_SESSION_ID}&value=${price}&sku=${encodeURIComponent(p.sku)}`,
     cancel_url: back,
     billing_address_collection: "required",
     phone_number_collection: { enabled: true },

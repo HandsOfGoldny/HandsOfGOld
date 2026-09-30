@@ -123,9 +123,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script>
 (function(){
   try{
-    var id=new URLSearchParams(location.search).get("session_id");
+    var qs=new URLSearchParams(location.search);
+    var id=qs.get("session_id");
+    var value=Number(qs.get("value"))||0;
+    var sku=qs.get("sku")||"";
     window.dataLayer=window.dataLayer||[];
-    window.dataLayer.push({event:"purchase_confirmed", checkout_session:id||"unknown"});
+    // Count each order once, even if the customer reloads this page.
+    var seenKey="hog_purchase_"+(id||"unknown"), seen=false;
+    try{ seen=sessionStorage.getItem(seenKey)==="1"; sessionStorage.setItem(seenKey,"1"); }catch(e){}
+    if(!seen){
+      window.dataLayer.push({event:"purchase_confirmed", checkout_session:id||"unknown",
+        transaction_id:id||"", value:value, currency:"USD", sku:sku});
+    }
   }catch(e){}
 })();
 </script>
