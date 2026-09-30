@@ -138,6 +138,13 @@ export default async function handler(req, res) {
     billing_address_collection: "required",
     phone_number_collection: { enabled: true },
     customer_creation: "always",
+    // Fraud / chargeback protection:
+    // - Cards only (Apple Pay / Google Pay ride on "card"). No bank debits, Cash App
+    //   or pay-later, so every payment goes through card fraud screening.
+    // - 3D Secure on every card: the bank verifies the cardholder, which moves
+    //   liability for "I didn't make this purchase" disputes to the card issuer.
+    payment_method_types: { 0: "card" },
+    payment_method_options: { card: { request_three_d_secure: "any" } },
     expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
     line_items: {
       0: {
@@ -161,7 +168,7 @@ export default async function handler(req, res) {
       }
     },
     custom_text: {
-      submit: { message: "In-store pickup only at 494 Oak St, Copiague, NY. Bring a photo ID that matches this card. We'll call you when it's ready." }
+      submit: { message: "Your card is authorized now and charged only at pickup. In-store pickup within 7 days at 494 Oak St, Copiague, NY. Bring a photo ID that matches this card. We'll call you when it's ready." }
     },
     metadata: {
       sku: p.sku, karat, weight_g: weight, price_usd: price, tax_usd: (taxCents / 100).toFixed(2),
@@ -169,6 +176,10 @@ export default async function handler(req, res) {
       quoted_at: safeIso(quotedAt), fulfillment: "in-store pickup"
     },
     payment_intent_data: {
+      // Authorize now, charge at pickup: staff capture the payment in Stripe only
+      // after checking a photo ID that matches the cardholder. No-shows are
+      // cancelled and never charged. Card authorizations last 7 days.
+      capture_method: "manual",
       description: `${name} (SKU ${p.sku}) - pickup`,
       metadata: { sku: p.sku, karat, price_usd: price, fulfillment: "in-store pickup" }
     }
