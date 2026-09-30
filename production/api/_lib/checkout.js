@@ -126,8 +126,8 @@ export default async function handler(req, res) {
 
   const priceCents = Math.round(price * 100);
   const taxCents = Math.round(price * TAX_RATE * 100);
-  const kind = p.type === "bracelet" ? "Bracelet" : "Necklace";
-  const name = `Monaci Cuban ${kind} ${p.widthMm}mm x ${p.lengthIn}in ${karat}`;
+  const kind = p.type === "bracelet" ? "Bracelet" : "Chain";
+  const name = `Monaci Hollow Cuban ${kind} ${p.widthMm}mm x ${p.lengthIn}in ${karat}`;
   const origin = siteOrigin(req);
   const back = `${origin}/classic-cuban-collection.html?type=${encodeURIComponent(p.type)}&width=${p.widthMm}&length=${p.lengthIn}&karat=${encodeURIComponent(karat)}`;
 
@@ -168,7 +168,7 @@ export default async function handler(req, res) {
       }
     },
     custom_text: {
-      submit: { message: "Your card is authorized now and charged only at pickup. In-store pickup within 7 days at 494 Oak St, Copiague, NY. Bring a photo ID that matches this card. We'll call you when it's ready." }
+      submit: { message: "In-store pickup within 7 days at 494 Oak St, Copiague, NY. Bring a photo ID that matches this card. We'll call you when it's ready." }
     },
     metadata: {
       sku: p.sku, karat, weight_g: weight, price_usd: price, tax_usd: (taxCents / 100).toFixed(2),
@@ -176,10 +176,9 @@ export default async function handler(req, res) {
       quoted_at: safeIso(quotedAt), fulfillment: "in-store pickup"
     },
     payment_intent_data: {
-      // Authorize now, charge at pickup: staff capture the payment in Stripe only
-      // after checking a photo ID that matches the cardholder. No-shows are
-      // cancelled and never charged. Card authorizations last 7 days.
-      capture_method: "manual",
+      // Charged at checkout (Julio, Sep 30 2026). Staff hand the piece over only
+      // after a photo ID that matches the cardholder; if it doesn't match, refund
+      // in Stripe and keep the piece.
       description: `${name} (SKU ${p.sku}) - pickup`,
       metadata: { sku: p.sku, karat, price_usd: price, fulfillment: "in-store pickup" }
     }

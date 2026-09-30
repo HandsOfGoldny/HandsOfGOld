@@ -204,8 +204,8 @@ function renderResult(){
   const p=currentProduct(); if(!p)return;
   const weight=Number(p.weights[state.karat]);
   $("#cc-product-image").src=p.image;
-  $("#cc-product-image").alt=`Monaci Cuban ${state.type} ${p.widthMm} mm ${p.lengthIn} inch in 14K gold`;
-  $("#cc-product-title").textContent=`Monaci Cuban ${state.type==="bracelet"?"Bracelet":"Necklace"}`;
+  $("#cc-product-image").alt=`Monaci hollow Cuban ${state.type} ${p.widthMm} mm ${p.lengthIn} inch in 14K gold`;
+  $("#cc-product-title").textContent=`Monaci Hollow Cuban ${state.type==="bracelet"?"Bracelet":"Chain"}`;
   $("#cc-sku").textContent=p.sku;
   $("#cc-width").textContent=p.widthMm+" mm";
   $("#cc-length-result").textContent=p.lengthIn+'"';
