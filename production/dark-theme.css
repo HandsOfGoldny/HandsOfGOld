@@ -1,0 +1,39 @@
+/* Visual-only refresh. Original page content, controls and flows are retained. */
+:root{color-scheme:dark;--bg:#08090b;--bg-soft:#111315;--surface:#111315;--surface-strong:#191b1f;--text:#f2f0ea;--text-soft:#b9b9b3;--gold:#dcc28e;--gold-deep:#b89a64;--line:#ffffff26}
+body.home-page.hog-system-v1{background:#08090b;color:#f2f0ea}
+.hog-photo-hero{position:relative;height:clamp(340px,49vw,600px);overflow:hidden;background:#08090b}
+.hog-photo-hero>img{width:100%;height:100%;object-fit:cover;object-position:center 62%;display:block}
+.hog-photo-shade{position:absolute;inset:0;background:linear-gradient(0deg,#08090bed,transparent 55%),linear-gradient(90deg,#08090b88,transparent 60%)}
+.hog-photo-copy{position:absolute;bottom:32px;left:max(20px,calc((100vw - 1180px)/2));right:20px;color:#f2f0ea}
+.hog-photo-copy>p{color:#e8d3ab;font-size:12px;letter-spacing:.15em;font-weight:700}.hog-photo-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hog-photo-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 22px;border:1px solid #dcc28e;border-radius:12px;background:#111315aa;color:#f2f0ea;font-weight:700;font-size:14px}
+.hog-photo-actions a:first-child{background:#dcc28e;color:#111315}
+body.home-page .home-review-strip{background:#111315;border-color:#ffffff26;color:#f2f0ea}.home-review-heading a,.home-review-grid blockquote{color:#f2f0ea}.home-review-grid figcaption,.home-review-heading a span{color:#dcc28e}.home-review-grid figure+figure{border-color:#ffffff26}
+body.home-page #sell-watches-gold,body.home-page #gift-cards{background:#101214;border-color:#dcc28e66}
+body.home-page #sell-watches-gold .hog-buy-card,body.home-page #gift-cards .hog-gift-options a{background:#191b1f;border-color:#ffffff26}
+body.home-page #sell-watches-gold .hog-gold-card .gold-calculator-result{background:#08090b;border-color:#ffffff26}
+body.home-page #sell-watches-gold .hog-gold-card .gold-calculator-rate{color:#b9b9b3!important}
+body.hog-system-v1 .button-primary,body.hog-system-v1 .hog-submit,body.hog-system-v1 .hog-global-call{background:#dcc28e!important;color:#111315!important;border-color:#dcc28e!important}
+body.hog-system-v1 .button-secondary{color:#f2f0ea!important}
+body.home-page .piece-builder-section,body.home-page .builder-panel,body.home-page .builder-preview,body.home-page .studio-chat,body.home-page .studio-controls{background:#111315;color:#f2f0ea}
+body.home-page .metals-ticker{background:#111315;border-color:#ffffff26}
+body.home-page :focus-visible{outline:3px solid #dcc28e;outline-offset:3px}
+@media(max-width:700px){.hog-photo-hero{height:420px}.hog-photo-hero>img{object-position:60% 55%}.hog-photo-copy{bottom:24px}.hog-photo-copy>p{font-size:10px}.hog-photo-actions{gap:8px}.hog-photo-actions a{padding:10px 13px;font-size:12px}}
+body.home-page.hog-system-v1 #hog-global-header .hog-global-nav a{color:#f2f0ea!important}
+body.home-page.hog-system-v1 #hog-global-header .hog-global-nav a:hover{color:#dcc28e!important;background:#22252a!important}
+body.home-page.hog-system-v1 .metals-ticker,body.home-page.hog-system-v1 .metal-chip{background:#111315!important;color:#f2f0ea!important;border-color:#ffffff26!important}
+body.home-page.hog-system-v1 :is(.hog-shop-tools,.custom-builder,.custom-builder-step,.custom-builder-summary,.custom-order-consent,.custom-builder-consent,.quick-service-card,.map-card,.hog-process-card,.hog-faq-card,.hog-service-proof-card){background:#111315!important;color:#f2f0ea!important;border-color:#ffffff26!important}
+body.home-page.hog-system-v1 :is(.custom-choice,.hog-quick-filter,.hog-card-inquiry-row a,.hog-card-inquiry-row button){background:#191b1f!important;color:#f2f0ea!important;border-color:#ffffff40!important}
+body.home-page.hog-system-v1 :is(.custom-choice.is-selected,.custom-choice.active,.hog-quick-filter.is-active){background:#dcc28e!important;color:#111315!important;border-color:#dcc28e!important}
+body.home-page.hog-system-v1 :is(input:not([type=checkbox]):not([type=radio]),select,textarea){background:#191b1f!important;color:#f2f0ea!important;border-color:#ffffff40!important}
+body.home-page.hog-system-v1 :is(.section-heading p,.custom-builder p,.custom-builder label,.custom-builder legend,.custom-builder h3,.custom-builder h4,.custom-builder-summary strong,.quick-service-card p,.quick-service-card h3,.visit-content p,.hog-shop-tools p,.hog-shop-tools label){color:#d1d0c9!important}
+body.home-page.hog-system-v1 :is(.button-secondary,.custom-order-consent a,.quick-service-card a){color:#dcc28e!important;background:#111315!important}
+body.home-page.hog-system-v1 .custom-choice[aria-pressed=true]{background:#dcc28e!important;color:#111315!important}
+body.home-page.hog-system-v1 .site-shell,body.home-page.hog-system-v1 #home-main{background:#08090b!important}
+body.home-page.hog-system-v1 :is(h1,h2,h3,h4){color:#f2f0ea!important;-webkit-text-fill-color:#f2f0ea!important}
+body.home-page.hog-system-v1 #gift-cards .hog-gift-options strong{color:#dcc28e!important;-webkit-text-fill-color:#dcc28e!important}
+body.home-page.hog-system-v1 .hog-global-menu-panel{background:#111315!important}
+body.home-page.hog-system-v1 .hog-global-menu-panel a{color:#f2f0ea!important}
+body.home-page.hog-system-v1 .hog-mobile-dock{background:#111315!important;border-color:#ffffff26!important}
+body.home-page.hog-system-v1 .hog-mobile-dock a{color:#f2f0ea!important}
+body.home-page.hog-system-v1 .hog-mobile-dock b,body.home-page.hog-system-v1 .hog-menu-payment-title{color:#dcc28e!important}
