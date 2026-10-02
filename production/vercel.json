@@ -33,6 +33,14 @@
     {
       "source": "/api/checkout",
       "destination": "/api/gold-estimate?op=checkout"
+    },
+    {
+      "source": "/api/astra-assist",
+      "destination": "/api/chat?op=astra"
+    },
+    {
+      "source": "/api/inspiration",
+      "destination": "/api/leads?op=inspiration"
     }
   ]
 }

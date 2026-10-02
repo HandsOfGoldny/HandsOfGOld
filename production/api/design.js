@@ -15,7 +15,8 @@
 
 const { command, configured } = require('./lib/redis');
 
-const MAX_BODY_BYTES = 24 * 1024;
+const MAX_BODY_BYTES = 900 * 1024;
+const {readImage}=require('../server/inspiration-image.cjs');
 const CONCEPT_TTL_SECONDS = 60 * 60 * 24 * 45; // 45 days
 const PER_VISITOR = Number(process.env.HOG_DESIGN_PER_VISITOR || 3);
 const DAILY_CAP = Number(process.env.HOG_DESIGN_DAILY_CAP || 200);
@@ -39,6 +40,7 @@ function parseBody(req) {
     if (Buffer.byteLength(body, 'utf8') > MAX_BODY_BYTES) throw new Error('too large');
     body = JSON.parse(body || '{}');
   }
+  if(Buffer.byteLength(JSON.stringify(body||{}),'utf8')>MAX_BODY_BYTES)throw new Error('too large');
   return body && typeof body === 'object' && !Array.isArray(body) ? body : {};
 }
 
@@ -280,8 +282,8 @@ module.exports = async function handler(req, res) {
   const rawPiece = clean(body.piece, 40);
   const spec = {
     piece: PIECES.indexOf(rawPiece) >= 0 ? rawPiece : 'Ring',
-    metal: clean(body.metal, 60),
-    stones: clean(body.stones, 60),
+    metal: body.metal==='Not sure yet'?'':clean(body.metal, 60),
+    stones: body.stones==='Not sure yet'?'':clean(body.stones, 60),
     budget: clean(body.budget, 40),
     size: clean(body.size, 160),
     notes: clean(body.notes, 900),
@@ -297,6 +299,7 @@ module.exports = async function handler(req, res) {
   }
 
   let reference = null;
+  try{reference=readImage(body.referenceImage);}catch(e){return res.status(400).json({error:e.message});}
   if(body.mode === 'revise') {
     const referenceId=clean(body.referenceConceptId,40).toUpperCase();
     if(!/^HOG-CUSTOM-[A-Z0-9]{5}$/.test(referenceId))return res.status(400).json({error:'Choose an existing concept to edit first.'});
@@ -317,7 +320,7 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  const prompt = buildPrompt(spec);
+  const prompt = buildPrompt(spec)+(reference?' Use the supplied image as inspiration. Follow the written brief where it differs. Do not duplicate third-party logos or branded designs.':'');
 
   try {
     const image = await generateImage(prompt, reference);

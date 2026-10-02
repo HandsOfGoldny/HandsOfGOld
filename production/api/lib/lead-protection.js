@@ -1,7 +1,7 @@
 'use strict';
 const {createHash}=require('node:crypto');
 const {isIP}=require('node:net');
-const MAX_BYTES=48*1024;
+const MAX_BYTES=900*1024;
 const LIMIT_SCRIPT=`
 local count = redis.call('INCR', KEYS[1])
 if count == 1 then redis.call('EXPIRE', KEYS[1], ARGV[1]) end

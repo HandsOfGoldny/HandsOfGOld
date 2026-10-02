@@ -1,5 +1,6 @@
 'use strict';
 const redis=require('./lib/redis');
+const {readImage}=require('../server/inspiration-image.cjs');
 const {command,configured}=redis;
 const {parseBody,validate,checkRate}=require('./lib/lead-protection');
 const DEFAULT_EMAIL='handsofgoldlongisland@gmail.com';
@@ -18,7 +19,7 @@ function conceptImageLink(value){
   }catch(_){return '';}
 }
 function clean(v,max=1200){return String(v==null?'':v).replace(/[\u0000-\u001F\u007F]/g,' ').replace(/\s+/g,' ').trim().slice(0,max)}
-function safeFields(body){const allowed=['details','goldKarat','approxWeight','repairType','stoneType','ringSize','engravingType','pieceType','length','width','karat','leadType','name','email','phone','message','service','source','page','utm_source','utm_campaign','offer','offer_terms','product','productSlug','piece','metal','stones','budget','size_dimensions','design_notes','request_summary','concept_id','concept_image_url','revision_notes','contact_time','consent','submitted_at','referrer'];const out={};for(const k of allowed){const v=clean(body[k],k==='design_notes'||k==='message'?3000:k==='concept_image_url'?600:800);if(v)out[k]=v}return out}
+function safeFields(body){const allowed=['details','goldKarat','approxWeight','repairType','stoneType','ringSize','engravingType','pieceType','length','width','karat','leadType','name','email','phone','message','service','source','page','utm_source','utm_campaign','offer','offer_terms','product','productSlug','piece','metal','stones','budget','size_dimensions','design_notes','request_summary','concept_id','concept_image_url','revision_notes','contact_time','consent','submitted_at','referrer'];const out={};for(const k of allowed){const v=clean(body[k],k==='request_summary'?3000:k==='design_notes'||k==='message'?3000:k==='concept_image_url'?600:800);if(v)out[k]=v}return out}
 async function formSubmit(payload){const inbox=encodeURIComponent(process.env.LEAD_EMAIL||DEFAULT_EMAIL);const r=await fetch(`https://formsubmit.co/ajax/${inbox}`,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:payload.subject,_template:'table',_captcha:'false',...payload.fields})});const d=await r.json().catch(()=>({}));if(!r.ok||d.success===false)throw new Error(d.message||`FormSubmit ${r.status}`);return true}
 async function resend(payload){
   if(!process.env.RESEND_API_KEY||!process.env.RESEND_FROM_EMAIL)return false;
@@ -27,11 +28,11 @@ async function resend(payload){
   const image=conceptImageLink(payload.fields.concept_image_link);
   const imageHtml=image?`<p><a href="${esc(image)}"><img src="${esc(image)}" alt="Customer jewelry concept" width="480" style="width:100%;max-width:480px;border-radius:8px"></a></p><p><a href="${esc(image)}">View full-size design</a></p>`:'';
   const text=[payload.subject,...Object.entries(payload.fields).map(([k,v])=>`${k}: ${v}`)].join('\n');
-  const r=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${process.env.RESEND_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({from:process.env.RESEND_FROM_EMAIL,to:[to],subject:payload.subject,html:`<h2>${esc(payload.subject)}</h2>${imageHtml}<table>${rows}</table>`,text})});
+  const r=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${process.env.RESEND_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({from:process.env.RESEND_FROM_EMAIL,to:[to],subject:payload.subject,...(payload.inspiration?{attachments:[{filename:'customer-inspiration.'+payload.inspiration.extension,content:payload.inspiration.b64}]}:{}),html:`<h2>${esc(payload.subject)}</h2>${imageHtml}<table>${rows}</table>`,text})});
   if(!r.ok)throw new Error(`Resend ${r.status}`);
   return true;
 }
-async function webhook(payload){if(!process.env.LEAD_WEBHOOK_URL)return false;const r=await fetch(process.env.LEAD_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json','User-Agent':'HandsOfGold-Leads/2.0'},body:JSON.stringify(payload)});if(!r.ok)throw new Error(`Webhook ${r.status}`);return true}
+async function webhook(payload){if(!process.env.LEAD_WEBHOOK_URL)return false;const r=await fetch(process.env.LEAD_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json','User-Agent':'HandsOfGold-Leads/2.0'},body:JSON.stringify({...payload,inspiration:undefined})});if(!r.ok)throw new Error(`Webhook ${r.status}`);return true}
 
 /* ---- Customer copy of their AI concept ------------------------------------
    Sends the design back to the person who made it, so the concept does not
@@ -58,6 +59,7 @@ async function customerCopy(fields,leadId){
 }
 
 module.exports=async function(req,res){
+  if(req.query?.op==='inspiration'||new URL(req.url||'/','https://local').searchParams.get('op')==='inspiration')return require('../server/inspiration.cjs')(req,res);
   res.setHeader('Cache-Control','no-store,max-age=0');res.setHeader('X-Content-Type-Options','nosniff');
   if(req.method!=='POST'){res.setHeader('Allow','POST');return res.status(405).json({success:false,error:'Method not allowed.'})}
   let body;try{body=parseBody(req)}catch(_){return res.status(400).json({success:false,error:'Invalid request.'})}
@@ -72,13 +74,17 @@ module.exports=async function(req,res){
     console.error('[hog-lead-protection] unavailable');
     return res.status(503).json({success:false,error:'We cannot receive online requests right now. Please call (631) 264-6610.'});
   }
+  let inspiration;try{inspiration=readImage(body.inspiration_image);}catch(e){return res.status(400).json({success:false,error:e.message});}
+  if(body.source==='astra_studio'&&body.consent!==true)return res.status(400).json({success:false,error:'Please confirm contact consent.'});
   const fields=safeFields(body),name=clean(fields.name,160),email=clean(fields.email,240),phone=clean(fields.phone,80);
   if(!name||(!email&&!phone))return res.status(400).json({success:false,error:'Please include your name and either an email or phone number.'});
   const leadType=clean(fields.leadType||'website_lead',80); const subjectMap={welcome_offer:'New Hands of Gold 10% Website Lead',labor_day_25:'New Hands of Gold Labor Day 25% Website Lead',custom_jewelry:'NEW CUSTOM JEWELRY REQUEST — HandsOfGoldNY.com',product_inquiry:`Product Inquiry — ${clean(fields.product||'Hands of Gold',140)}`,service:`Service Inquiry — ${clean(fields.service||'Hands of Gold',140)}`};
   const leadId=`HOG-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2,7).toUpperCase()}`; const now=new Date().toISOString(); fields.lead_id=leadId; fields.received_at_utc=now;
+  if(body.source==='astra_studio'){fields.approval_status='staff_review_required';fields.request_status='inquiry_only';}
+  if(inspiration){fields.inspiration_staff_url='/api/inspiration?id='+leadId;try{await command('SET','hog:inspiration:'+leadId,JSON.stringify(inspiration),'EX',String(45*86400));}catch(_){return res.status(503).json({success:false,error:'We could not save your inspiration. Your request was not sent. Please retry or remove the image and call the store.'});}}
   const imageLink=conceptImageLink(fields.concept_image_url);
   if(imageLink)fields.concept_image_link=imageLink;
-  const lead={id:leadId,lead_type:leadType,name,email,phone,status:'new',created_at:now,assigned_to:'',next_follow_up:'',notes:'',payload:fields}; const payload={leadId,leadType,subject:subjectMap[leadType]||'New Hands of Gold Website Lead',fields};
+  const lead={id:leadId,lead_type:leadType,name,email,phone,status:'new',created_at:now,assigned_to:'',next_follow_up:'',notes:'',payload:fields}; const payload={leadId,leadType,subject:subjectMap[leadType]||'New Hands of Gold Website Lead',fields,inspiration};
   console.log('[hog-lead]',JSON.stringify({leadId,leadType,name,email,phone,product:fields.product||'',service:fields.service||'',page:fields.page||''}));
   let stored=false; if(configured()){try{await command('LPUSH','hog:leads',JSON.stringify(lead));await command('LTRIM','hog:leads','0','1999');stored=true}catch(e){console.error('[hog-lead-storage]',e.message)}}
   const results=await Promise.allSettled([resend(payload),webhook(payload),formSubmit(payload)]); const delivered=results.some(r=>r.status==='fulfilled'&&r.value===true);
