@@ -306,4 +306,18 @@ body.hog-system-v1 .hog-sub-hero p.gz-promise{margin-top:.6rem;font-family:var(-
 .gz-upload-icon{flex:none;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--hog-navy,#071a49);color:#fff;font-size:1.4rem;font-weight:700}
 .gz-file-input{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
 .gz-upload-preview{margin-bottom:0}
-.gz-upload-note{margin:0;font-size:.78rem;color:var(--hog-muted,#667085)}
+.gz-upload-note{margin:0;font-size:.78rem;color:var(--hog-muted,#667085)}/* Dark palette for Grillz forms, choices and concept preview. */
+body.hog-system-v1{--hog-ink-soft:#b9b9b3;--hog-gold:#dcc28e;--hog-gold-soft:#e8d3ab;--hog-muted:#b9b9b3;color-scheme:dark}
+body.hog-system-v1 :is(.gz-style,.gz-metal,.gz-quiz,.gz-prices-wrap,.gz-craft-step,.gz-path,.gz-partner,.gz-studio-build,.gz-studio-revise,.gz-attached){background:#111315;color:#f2f0ea;border-color:#ffffff26}
+body.hog-system-v1 :is(.gz-choice,.gz-idea){background:#191b1f;color:#f2f0ea;border-color:#ffffff40}
+body.hog-system-v1 .gz-choice[aria-pressed=true]{background:#dcc28e;color:#111315;border-color:#dcc28e;box-shadow:0 0 0 2px #dcc28e30}
+body.hog-system-v1 :is(.gz-studio-frame,.gz-art){background:#08090b;border:1px solid #dcc28e40}
+body.hog-system-v1 .gz-studio-empty .gz-art{background:transparent;border:0}
+body.hog-system-v1 .gz-studio-build :is(input:not([type=checkbox]),select,textarea){background:#08090b!important;color:#f2f0ea!important;border-color:#ffffff40!important;min-width:0}
+body.hog-system-v1 :is(.gz-studio-build,.gz-studio-revise) .hog-field>span{color:#f2f0ea}
+body.hog-system-v1 :is(.gz-studio-build,.gz-studio-revise) .hog-submit{background:#dcc28e!important;color:#111315!important;border-color:#dcc28e!important}
+body.hog-system-v1 .gz-upload-drop{background:#08090b;color:#b9b9b3;border-color:#ffffff40}
+body.hog-system-v1 :is(.gz-upload-drop:hover,.gz-idea:hover){background:#22252a;border-color:#dcc28e}
+body.hog-system-v1 :is(.gz-path-time strong,.gz-studio-price,.gz-prices-wrap th){color:#dcc28e}
+body.hog-system-v1 .gz-path-tag{background:#dcc28e;color:#111315}
+body.hog-system-v1 :is(.gz-studio,.gz-studio-build,.gz-studio-result,.hog-field-row,.hog-field){min-width:0}

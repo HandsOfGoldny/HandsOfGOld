@@ -42,3 +42,23 @@ body.home-page.hog-system-v1 #home-main .section-header .eyebrow{color:#dcc28e!i
 body.home-page.hog-system-v1 #featured-products .catalog-product-footer a,body.home-page.hog-system-v1 #featured-products .catalog-product-title-link{color:#dcc28e!important}
 body.home-page.hog-system-v1 #custom-builder .custom-order-contact>*{min-width:0}
 body.home-page.hog-system-v1 #custom-builder .custom-order-contact input{min-width:0;max-width:100%}
+/* Match the buying area and asynchronously loaded jewelry studio to the site. */
+body.home-page.hog-system-v1 #sell-watches-gold{background:#08090b!important;border-color:#dcc28e55!important}
+body.home-page.hog-system-v1 #sell-watches-gold .hog-buy-card{background:#101113!important;border-color:#ffffff26!important}
+body.home-page.hog-system-v1 #sell-watches-gold :is(input,select,.gold-calculator-result){background:#08090b!important;color:#f2f0ea!important;border-color:#ffffff35!important}
+body.home-page.hog-system-v1 #sell-watches-gold .hog-buy-link{background:#dcc28e!important;color:#111315!important}
+body.home-page.hog-system-v1 #sell-watches-gold .hog-buy-link.secondary{background:#08090b!important;color:#f2f0ea!important;border-color:#ffffff40!important}
+body.home-page.hog-system-v1 #custom-builder #hog-studio{--hog-navy:#111315;--hog-navy-deep:#08090b;--hog-black:#08090b;--hog-gold:#dcc28e;--hog-gold-soft:#e8d3ab;--hog-ivory:#f2f0ea;background:#08090b!important;border-color:#dcc28e55!important;box-shadow:none!important}
+body.home-page.hog-system-v1 #custom-builder #hog-studio::before{background:#dcc28e!important}
+body.home-page.hog-system-v1 #custom-builder #hog-studio :is(.custom-builder-step,.custom-builder-summary,.hog-studio-revise){background:#101113!important;border-color:#ffffff26!important;color:#f2f0ea!important}
+body.home-page.hog-system-v1 #custom-builder #hog-studio .hog-studio-stage{background:#111315!important;border-color:#dcc28e55!important}
+body.home-page.hog-system-v1 #custom-builder #hog-studio .custom-choice{background:#191b1f!important;color:#f2f0ea!important;-webkit-text-fill-color:#f2f0ea!important;border-color:#ffffff40!important}
+body.home-page.hog-system-v1 #custom-builder #hog-studio .custom-choice.is-selected{background:#dcc28e!important;color:#111315!important;-webkit-text-fill-color:#111315!important;border-color:#dcc28e!important}
+body.home-page.hog-system-v1 #custom-builder #hog-studio :is(input,select,textarea){background:#08090b!important;color:#f2f0ea!important;-webkit-text-fill-color:#f2f0ea!important;border-color:#ffffff40!important}
+body.home-page.hog-system-v1 #custom-builder #hog-studio :is(input,textarea)::placeholder{color:#aaa9a3!important;-webkit-text-fill-color:#aaa9a3!important}
+body.home-page.hog-system-v1 #custom-builder #hog-studio :is(.hog-studio-btn,.custom-builder-actions .button){background:#191b1f!important;color:#f2f0ea!important;-webkit-text-fill-color:#f2f0ea!important;border-color:#ffffff40!important}
+body.home-page.hog-system-v1 #custom-builder #hog-studio .hog-studio-btn-gold{background:#dcc28e!important;color:#111315!important;-webkit-text-fill-color:#111315!important;border-color:#dcc28e!important}
+body.home-page.hog-system-v1 #custom-builder #hog-studio .hog-studio-workspace>*{min-width:0}
+body.home-page.hog-system-v1 #custom-builder #hog-studio .custom-builder-fields{display:grid!important;grid-template-columns:minmax(0,1fr)!important}
+body.home-page.hog-system-v1 #custom-builder #hog-studio .custom-builder-fields label{min-width:0}
+@media(max-width:700px){body.home-page.hog-system-v1 #custom-builder #hog-studio .hog-studio-preview{position:static!important}body.home-page.hog-system-v1 #custom-builder .custom-order-contact{grid-template-columns:minmax(0,1fr)!important}}
