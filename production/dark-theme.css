@@ -37,3 +37,8 @@ body.home-page.hog-system-v1 .hog-global-menu-panel a{color:#f2f0ea!important}
 body.home-page.hog-system-v1 .hog-mobile-dock{background:#111315!important;border-color:#ffffff26!important}
 body.home-page.hog-system-v1 .hog-mobile-dock a{color:#f2f0ea!important}
 body.home-page.hog-system-v1 .hog-mobile-dock b,body.home-page.hog-system-v1 .hog-menu-payment-title{color:#dcc28e!important}
+body.home-page.hog-system-v1 #home-main .section-header :is(h1,h2,h3,p),body.home-page.hog-system-v1 #home-main .section-heading :is(h1,h2,h3,p){color:#f2f0ea!important;-webkit-text-fill-color:#f2f0ea!important}
+body.home-page.hog-system-v1 #home-main .section-header .eyebrow{color:#dcc28e!important;-webkit-text-fill-color:#dcc28e!important}
+body.home-page.hog-system-v1 #featured-products .catalog-product-footer a,body.home-page.hog-system-v1 #featured-products .catalog-product-title-link{color:#dcc28e!important}
+body.home-page.hog-system-v1 #custom-builder .custom-order-contact>*{min-width:0}
+body.home-page.hog-system-v1 #custom-builder .custom-order-contact input{min-width:0;max-width:100%}
