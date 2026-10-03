@@ -488,3 +488,11 @@ body.hog-system-v1 #gold-calc-rate{font-variant-numeric:tabular-nums}
   .hog-vip.is-open .hog-vip-card{animation:hogVipIn .28s cubic-bezier(.2,.8,.3,1)}
   @keyframes hogVipIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 }
+/* Shared service-page FAQ contrast in the dark theme. */
+body.hog-system-v1{--hog-ink-soft:#b9b9b3}
+body.hog-system-v1 .hog-faq details{background:#111315!important;color:#f2f0ea!important;border-color:#ffffff26!important}
+body.hog-system-v1 .hog-faq summary{color:#f2f0ea!important;-webkit-text-fill-color:#f2f0ea!important;line-height:1.5}
+body.hog-system-v1 .hog-faq summary::after{color:#dcc28e!important;-webkit-text-fill-color:#dcc28e!important}
+body.hog-system-v1 .hog-faq details[open]{border-color:#dcc28e70!important}
+body.hog-system-v1 .hog-faq p{color:#c7c7c0!important;-webkit-text-fill-color:#c7c7c0!important}
+body.hog-system-v1 .hog-faq summary:focus-visible{outline:2px solid #dcc28e;outline-offset:5px;border-radius:4px}
