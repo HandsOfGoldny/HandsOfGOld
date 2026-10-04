@@ -31,6 +31,7 @@ function validate(req,body){
     if(!['string','number','boolean'].includes(typeof body[key])&&body[key]!==null)return 'Invalid request.';
   }
   if(String(body.website||'').trim())return 'We could not accept this request. Please call (631) 264-6610.';
+  if(body.source==='astra_chat'&&body.consent!==true)return 'Please confirm contact consent.';
   if(body.leadType==='giveaway_202609'){
     if(Date.now()>=Date.parse('2026-10-01T00:00:00-04:00'))return 'This giveaway closed September 30, 2026.';
     if(body.consent!==true)return 'Please confirm your eligibility and agreement to the giveaway rules.';

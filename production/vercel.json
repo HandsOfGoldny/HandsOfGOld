@@ -27,6 +27,9 @@
     },
     "api/gold-estimate.js": {
       "includeFiles": "{classic-cuban-data.js,classic-cuban-pricing.js}"
+    },
+    "api/chat.js": {
+      "maxDuration": 60
     }
   },
   "rewrites": [
