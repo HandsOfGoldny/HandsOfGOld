@@ -554,3 +554,12 @@ body.hog-system-v1 #custom-builder #hog-studio .hog-studio-request .eyebrow{colo
   body.hog-system-v1 .hog-global-brand{min-width:0;gap:8px}
   body.hog-system-v1 .hog-global-brand-copy{display:grid!important}
 }
+
+/* Keep prices centered and give phone labels their own line. */
+body.home-page.hog-system-v1 :is(.metals-ticker,.metals-ticker-inner,.metals-prices,.metal-chip){height:auto!important;min-height:42px!important}
+body.home-page.hog-system-v1 .metal-chip{flex-wrap:nowrap!important;line-height:1.4!important}
+body.home-page.hog-system-v1 .metal-chip strong{height:auto!important;min-height:0!important;min-width:0!important;line-height:1.4!important;white-space:nowrap!important;color:#e8d3ab!important}
+@media(max-width:760px){
+ body.home-page.hog-system-v1 .metal-chip{flex-direction:column!important;gap:2px!important;padding:7px 3px!important;font-size:13px!important}
+ body.home-page.hog-system-v1 .metal-chip strong{font-size:13px!important}
+}

@@ -59,6 +59,7 @@
       if (symbol === "XAU" && !Number.isFinite(latestGoldPrice)) {
         latestGoldPrice = GOLD_FALLBACK_USD_PER_OZ;
       }
+      el.textContent = "Unavailable";
       return null;
     }
   }
@@ -72,7 +73,7 @@
     ]);
     const ticker = document.querySelector(".metals-ticker");
     const anyLive = results.some(Boolean);
-    if (ticker) ticker.hidden = !anyLive;   // absence reads as clean; failure text reads as broken
+    if (ticker) ticker.hidden = false; // Keep prices visible during a feed outage.
     if (updated && anyLive) {
       const stale = results.some(r => r && r.stale);
       updated.textContent = stale

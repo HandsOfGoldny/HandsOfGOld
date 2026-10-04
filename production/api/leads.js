@@ -19,16 +19,28 @@ function conceptImageLink(value){
 }
 function clean(v,max=1200){return String(v==null?'':v).replace(/[\u0000-\u001F\u007F]/g,' ').replace(/\s+/g,' ').trim().slice(0,max)}
 function safeFields(body){const allowed=['details','goldKarat','approxWeight','repairType','stoneType','ringSize','engravingType','pieceType','length','width','karat','leadType','name','email','phone','message','service','source','page','utm_source','utm_campaign','offer','offer_terms','product','productSlug','piece','metal','stones','budget','size_dimensions','design_notes','request_summary','concept_id','concept_image_url','revision_notes','contact_time','consent','submitted_at','referrer'];const out={};for(const k of allowed){const v=clean(body[k],k==='design_notes'||k==='message'?3000:k==='concept_image_url'?600:800);if(v)out[k]=v}return out}
-async function formSubmit(payload){const inbox=encodeURIComponent(process.env.LEAD_EMAIL||DEFAULT_EMAIL);const r=await fetch(`https://formsubmit.co/ajax/${inbox}`,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:payload.subject,_template:'table',_captcha:'false',...payload.fields})});const d=await r.json().catch(()=>({}));if(!r.ok||d.success===false)throw new Error(d.message||`FormSubmit ${r.status}`);return true}
+function notificationRecipients(){return [...new Set([process.env.LEAD_EMAIL||DEFAULT_EMAIL,process.env.LEAD_CC_EMAIL||''].flatMap(v=>v.split(',')).map(v=>v.trim().toLowerCase()).filter(Boolean))]}
+async function formSubmit(payload,to){const inbox=encodeURIComponent(to);const r=await fetch('https://formsubmit.co/ajax/'+inbox,{method:'POST',signal:AbortSignal.timeout(8000),headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:payload.subject,_template:'table',_captcha:'false',...payload.fields})});const d=await r.json().catch(()=>({}));if(!r.ok||!([true,'true'].includes(d.success)))throw new Error('FormSubmit '+r.status+': not accepted');return true}
+async function notifyStaff(payload){
+  try{if(await resend(payload))return true}catch(e){console.error('[hog-lead-email]',payload.leadId,e.message)}
+  const fallback=await Promise.allSettled(notificationRecipients().map(to=>formSubmit(payload,to)));
+  const accepted=fallback.filter(r=>r.status==='fulfilled'&&r.value===true).length;
+  console.log('[hog-lead-email-fallback]',JSON.stringify({leadId:payload.leadId,accepted,total:fallback.length}));
+  if(accepted!==fallback.length)console.error('[hog-lead-email-incomplete]',payload.leadId);
+  return accepted>0;
+}
 async function resend(payload){
   if(!process.env.RESEND_API_KEY||!process.env.RESEND_FROM_EMAIL)return false;
-  const to=process.env.LEAD_EMAIL||DEFAULT_EMAIL;
+  const to=notificationRecipients();
   const rows=Object.entries(payload.fields).map(([k,v])=>`<tr><th align="left">${esc(k)}</th><td>${esc(v)}</td></tr>`).join('');
   const image=conceptImageLink(payload.fields.concept_image_link);
   const imageHtml=image?`<p><a href="${esc(image)}"><img src="${esc(image)}" alt="Customer jewelry concept" width="480" style="width:100%;max-width:480px;border-radius:8px"></a></p><p><a href="${esc(image)}">View full-size design</a></p>`:'';
   const text=[payload.subject,...Object.entries(payload.fields).map(([k,v])=>`${k}: ${v}`)].join('\n');
-  const r=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${process.env.RESEND_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({from:process.env.RESEND_FROM_EMAIL,to:[to],subject:payload.subject,html:`<h2>${esc(payload.subject)}</h2>${imageHtml}<table>${rows}</table>`,text})});
+  const r=await fetch('https://api.resend.com/emails',{method:'POST',signal:AbortSignal.timeout(8000),headers:{Authorization:`Bearer ${process.env.RESEND_API_KEY}`,'Content-Type':'application/json','Idempotency-Key':'lead-'+payload.leadId},body:JSON.stringify({from:process.env.RESEND_FROM_EMAIL,to,reply_to:payload.fields.email||process.env.LEAD_EMAIL||DEFAULT_EMAIL,subject:payload.subject,html:`<h2>${esc(payload.subject)}</h2>${imageHtml}<table>${rows}</table>`,text})});
   if(!r.ok)throw new Error(`Resend ${r.status}`);
+  const receipt=await r.json();
+  if(!receipt.id)throw new Error('Resend missing receipt');
+  console.log('[hog-lead-email-accepted]',JSON.stringify({leadId:payload.leadId,emailId:receipt.id,recipients:to.length}));
   return true;
 }
 async function webhook(payload){if(!process.env.LEAD_WEBHOOK_URL)return false;const r=await fetch(process.env.LEAD_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json','User-Agent':'HandsOfGold-Leads/2.0'},body:JSON.stringify(payload)});if(!r.ok)throw new Error(`Webhook ${r.status}`);return true}
@@ -81,7 +93,7 @@ module.exports=async function(req,res){
   const lead={id:leadId,lead_type:leadType,name,email,phone,status:'new',created_at:now,assigned_to:'',next_follow_up:'',notes:'',payload:fields}; const payload={leadId,leadType,subject:subjectMap[leadType]||'New Hands of Gold Website Lead',fields};
   console.log('[hog-lead]',JSON.stringify({leadId,leadType,name,email,phone,product:fields.product||'',service:fields.service||'',page:fields.page||''}));
   let stored=false; if(configured()){try{await command('LPUSH','hog:leads',JSON.stringify(lead));await command('LTRIM','hog:leads','0','1999');stored=true}catch(e){console.error('[hog-lead-storage]',e.message)}}
-  const results=await Promise.allSettled([resend(payload),webhook(payload),formSubmit(payload)]); const delivered=results.some(r=>r.status==='fulfilled'&&r.value===true);
+  const results=await Promise.allSettled([notifyStaff(payload),webhook(payload)]); const delivered=results.some(r=>r.status==='fulfilled'&&r.value===true);
   if(!delivered&&!stored)return res.status(502).json({success:false,error:'We could not deliver your request. Please call (631) 264-6610.'});
   /* Customer copy is best-effort: the lead is already safe at this point. */
   let customerCopySent=false;
