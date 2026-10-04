@@ -2,7 +2,7 @@
 :root{color-scheme:dark;--bg:#08090b;--bg-soft:#111315;--surface:#111315;--surface-strong:#191b1f;--text:#f2f0ea;--text-soft:#b9b9b3;--gold:#dcc28e;--gold-deep:#b89a64;--line:#ffffff26}
 body.home-page.hog-system-v1{background:#08090b;color:#f2f0ea}
 .hog-photo-hero{position:relative;height:clamp(340px,49vw,600px);overflow:hidden;background:#08090b}
-.hog-photo-hero>img{width:100%;height:100%;object-fit:cover;object-position:center 62%;display:block}
+.hog-photo-hero>img{width:100%;height:100%;object-fit:cover;object-position:center bottom;display:block}
 .hog-photo-shade{position:absolute;inset:0;background:linear-gradient(0deg,#08090bed,transparent 55%),linear-gradient(90deg,#08090b88,transparent 60%)}
 .hog-photo-copy{position:absolute;bottom:32px;left:max(20px,calc((100vw - 1180px)/2));right:20px;color:#f2f0ea}
 .hog-photo-copy>p{color:#e8d3ab;font-size:12px;letter-spacing:.15em;font-weight:700}.hog-photo-actions{display:flex;gap:12px;flex-wrap:wrap}
@@ -18,7 +18,7 @@ body.hog-system-v1 .button-secondary{color:#f2f0ea!important}
 body.home-page .piece-builder-section,body.home-page .builder-panel,body.home-page .builder-preview,body.home-page .studio-chat,body.home-page .studio-controls{background:#111315;color:#f2f0ea}
 body.home-page .metals-ticker{background:#111315;border-color:#ffffff26}
 body.home-page :focus-visible{outline:3px solid #dcc28e;outline-offset:3px}
-@media(max-width:700px){.hog-photo-hero{height:420px}.hog-photo-hero>img{object-position:60% 55%}.hog-photo-copy{bottom:24px}.hog-photo-copy>p{font-size:10px}.hog-photo-actions{gap:8px}.hog-photo-actions a{padding:10px 13px;font-size:12px}}
+@media(max-width:700px){.hog-photo-hero{height:420px}.hog-photo-hero>img{height:calc(100% - 100px);object-position:center bottom}.hog-photo-copy{bottom:24px}.hog-photo-copy>p{font-size:10px}.hog-photo-actions{gap:8px}.hog-photo-actions a{padding:10px 13px;font-size:12px}}
 body.home-page.hog-system-v1 #hog-global-header .hog-global-nav a{color:#f2f0ea!important}
 body.home-page.hog-system-v1 #hog-global-header .hog-global-nav a:hover{color:#dcc28e!important;background:#22252a!important}
 body.home-page.hog-system-v1 .metals-ticker,body.home-page.hog-system-v1 .metal-chip{background:#111315!important;color:#f2f0ea!important;border-color:#ffffff26!important}
